@@ -15,4 +15,5 @@
 *                                                                          *
 *                                       Designed & Created by Irvin Delano *
 ****************************************************************************
-IMPORTANT: Please maximize the CLI window for better experience.
+IMPORTANT : Please maximize the CLI window for better experience.
+TIPS      : Use "High Performance" in Battery Settings for smooth animation.

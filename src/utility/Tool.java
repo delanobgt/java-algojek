@@ -88,6 +88,18 @@ public class Tool {
         }
     }
 
+    public static String showProgressBar(int length, int delay, int stop, Routine routine) {
+        String progressBar = "";
+        for (int i = 1; i <= length; i++) {
+            routine.doRoutine();
+            progressBar = String.format("|%-"+(2*length-1)+"s| %d%%\n", Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
+            System.out.print(progressBar);
+            sleep(delay);
+            if (i == stop) break;
+        }
+        return progressBar;
+    }
+
     public static int getRandomIntegerWithRange(int a, int b) {
         return ( (int)(Math.random()*(b-a+1)) ) + a;
     }

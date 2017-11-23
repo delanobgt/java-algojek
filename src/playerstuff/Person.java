@@ -12,6 +12,7 @@ public class Person implements Serializable {
     private int energy, maxEnergy;
     //------------------------------
     private int money;
+    private double rating;
     private int tripOfTheDay;
     private int totalTrip;
     //------------------------------
@@ -27,7 +28,7 @@ public class Person implements Serializable {
         this.name = "Algojek - "+name;
         //-------------------------------
         this.day = 1;
-        this.energy = 0; this.maxEnergy = 20;
+        this.energy = 20; this.maxEnergy = 20;
         //-------------------------------
         this.money = 1_000_000;
         this.tripOfTheDay = 0;
@@ -35,7 +36,7 @@ public class Person implements Serializable {
         //-------------------------------
         this.intelligence = 20;
         this.muscleStrength = 20;
-        this.attractiveness = 20;
+        this.attractiveness = 60;
         this.girlsDated = 0;
         //-------------------------------
         this.motorcycle = new Motorcycle();
@@ -45,14 +46,15 @@ public class Person implements Serializable {
     public void print() {
         int gap = 5;
         System.out.printf("%-42s", Tool.rep('*', name.length()+4));                         System.out.printf("%s %s\n", Tool.rep(' ',gap), Tool.rep('*',14));
-        System.out.printf("%-42s", "* "+name+" *");                                        System.out.printf("%s * %s *\n", Tool.rep(' ', gap), "Motorcycle");
+        System.out.printf("%-42s", "* "+name+" *");                                         System.out.printf("%s * %s *\n", Tool.rep(' ', gap), "Motorcycle");
         System.out.print(Tool.rep('*', 42));                                                System.out.printf("%s %s\n", Tool.rep(' ',gap), Tool.rep('*',30));
         System.out.printf("* %-18s : %-17d *", "Day", day);                                 System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Fuel", motorcycle.getFuel());
         System.out.printf("* %-18s : %-17s *", "Energy", energy+"/"+maxEnergy);             System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Oil Quality", motorcycle.getOilQuality());
         System.out.printf("*%s*", Tool.rep('-', 40));                                       System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Engine Health", motorcycle.getEngineHealth());
         System.out.printf("* %-18s   %-17s *", "(Career)", "");                             System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Suspension Health", motorcycle.getSuspensionHealth());
         System.out.printf("* %-18s : Rp. %,-13d *", "- Money", money);                      System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Battery Health", motorcycle.getBatteryHealth());
-        System.out.printf("* %-18s : %-17s *", "- Trip of the Day", tripOfTheDay+"/"+5);   System.out.printf("%s %s\n", Tool.rep(' ',gap), Tool.rep('*',30));
+        System.out.printf("* %-18s : %-17.1f *", "- Driver Rating", rating);                       System.out.printf("%s %s\n", Tool.rep(' ',gap), Tool.rep('*',30));
+        System.out.printf("* %-18s : %-17s *\n", "- Trip of the Day", tripOfTheDay+"/"+5);
         System.out.printf("* %-18s : %-17d *\n", "- Total Trip", totalTrip);
         System.out.printf("*%s*\n", Tool.rep('-', 40));
         System.out.printf("* %-18s   %-17s *\n", "(Personal)", "");
@@ -73,6 +75,8 @@ public class Person implements Serializable {
     public void setMaxEnergy(int maxEnergy) {this.maxEnergy = maxEnergy;}
     public int getMoney() {return money;}
     public void setMoney(int money) {this.money = money;}
+    public double getRating() {return rating;}
+    public void setMoney(double rating) {this.rating = rating;}
     public int getTripOfTheDay() {return tripOfTheDay;}
     public void setTripOfTheDay(int tripOfTheDay) {this.tripOfTheDay = tripOfTheDay;}
     public int getTotalTrip() {return totalTrip;}

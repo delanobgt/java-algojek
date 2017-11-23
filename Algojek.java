@@ -28,29 +28,33 @@ public class Algojek {
             WelcomeScreen.showAnimatedTitle();
             String userName = WelcomeScreen.prompt();
             person = WelcomeScreen.getPersonByName(userName);
+            do {
+                int mainChoice = Tool.getIntegerInputWithRange(1, mainJobs.length,
+                        () -> {
+                            Tool.clearScreen();
+                            person.print();
+                            System.out.println("\n----Main Activities----");
+                            mainJobMenu.print();
+                            System.out.print(String.format("\nChoice(1-%d): ", mainJobs.length));
+                        });
 
-            int mainChoice = Tool.getIntegerInputWithRange(1, mainJobs.length,
-                    () -> {
-                        Tool.clearScreen();
-                        person.print();
-                        System.out.println("\n----Main Activities----");
-                        mainJobMenu.print();
-                        System.out.print(String.format("\nChoice(1-%d): ", mainJobs.length));
-                    });
+                if (mainChoice == 1) {  // Sleep
+                    SleepMenu sleepMenu = new SleepMenu(person);
+                    sleepMenu.prompt();
+                } else if (mainChoice == 2) {   // Algojek Jobs
 
-            if (mainChoice == 1) {  // Sleep
-
-            } else if (mainChoice == 2) {   // Algojek Jobs
-
-            } else if (mainChoice == 3) {   // Personal Activities
-
-            } else if (mainChoice == 4) {   // Motorcycle Services
-
-            } else if (mainChoice == 5) {   // Check Achievements
-
-            } else if (mainChoice == 6) {   // Quit..
-
-            }
+                } else if (mainChoice == 3) {   // Personal Activities
+                    PersonalActivitiesMenu personalActivitiesMenu = new PersonalActivitiesMenu(person);
+                    personalActivitiesMenu.prompt();
+                } else if (mainChoice == 4) {   // Motorcycle Services
+                    MotorcycleServicesMenu motorcycleServicesMenu = new MotorcycleServicesMenu(person);
+                    motorcycleServicesMenu.prompt();
+                } else if (mainChoice == 5) {   // Check Achievements
+                    
+                } else if (mainChoice == 6) {   // Quit..
+                    break;
+                }
+            } while (true);
         } while (true);
     }
 
