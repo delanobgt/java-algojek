@@ -7,6 +7,7 @@ import java.util.*;
 
 public class AlgoRideOrderScreen {
     private String title = "\n>>>>>>>>>>>>>>>>>>>>[ A l g o  -  R i d e ]<<<<<<<<<<<<<<<<<<<<\n";
+    private String customerDetails = "";
     private Person person;
     private Motorcycle motorcycle;
     private Runnable orderRunnable;
@@ -66,7 +67,7 @@ public class AlgoRideOrderScreen {
             int fuel = ((int)(31*rate) + 10);
 
             //show customer, ask for picking or not
-            for (int i = 8; i >= 1; i--) {
+            for (int i = 8; i >= 0; i--) {
                 if (isPressed) {
                     doJob(money, energy, fuel, name, gender, distance, origin, dest);
                     return;
@@ -75,12 +76,13 @@ public class AlgoRideOrderScreen {
                 person.print();
                 System.out.print(title);
                 System.out.print("\nCustomer found!!\n");
-                System.out.printf("\n%-14s | %-11s | %-6s | %-4s | %s \n",
-                                    "Name", "Job Fare", "Energy", "Fuel", "Trip Path");
-                System.out.println(Tool.rep('-', 88));
-                System.out.printf("%-14s | +Rp. %,-6d | %6s | %4s | %s\n",
-                                    name+" ("+gender+")", money, "-"+energy, "-"+fuel+"%",
-                                    origin+" -> "+dest+" ("+distance+"km)");
+                customerDetails = String.format("\n%-14s | %-11s | %-6s | %-4s | %s \n",
+                                        "Name", "Job Fare", "Energy", "Fuel", "Trip Path") +
+                                    Tool.rep('-', 88) + "\n" +
+                                    String.format("%-14s | +Rp. %,-6d | %6s | %4s | %s\n",
+                                        name+" ("+gender+")", money, "-"+energy, "-"+fuel+"%",
+                                        origin+" -> "+dest+" ("+distance+"km)");
+                System.out.print(customerDetails);
                 if (!isJobDoable(energy, fuel)) {
                     System.out.print("\n **WARNING!!**");
                     System.out.print("\n Not enough energy/fuel");
@@ -103,10 +105,12 @@ public class AlgoRideOrderScreen {
                                     Tool.clearScreen();
                                     person.print();
                                     System.out.print(title);
+                                    System.out.print("\nJob accepted..\n");
+                                    System.out.print(customerDetails);
                                     System.out.print("\nJob on Progress:\n");
                                 });
         if (person.getEnergy() < energy) {  // not enough energy
-            double customerRating = (int)(((Math.random()*2)+1.0)*10)/10.0;
+            double customerRating = Tool.getRandomIntegerWithRange(1, 2);
             double currentRating = ((person.getRating()*person.getTotalTrip())+customerRating)/(person.getTotalTrip()+1);
             person.setRating(currentRating);
             person.setEnergy(0);
@@ -117,8 +121,8 @@ public class AlgoRideOrderScreen {
             System.out.printf("Energy -> 0\n");
             System.out.printf("Driver Rating from Customer: %.1f\n", customerRating);
             System.out.printf("Current Driver Rating: %.1f\n", person.getRating());
-        } else if (motorcycle.getFuel() < fuel) { // not enough
-            double customerRating = (int)(((Math.random()*2)+1.0)*10)/10.0;
+        } else if (motorcycle.getFuel() < fuel) { // not enough fuel
+            double customerRating = Tool.getRandomIntegerWithRange(1, 2);
             double currentRating = ((person.getRating()*person.getTotalTrip())+customerRating)/(person.getTotalTrip()+1);
             person.setRating(currentRating);
             motorcycle.setFuel(0);
@@ -129,57 +133,39 @@ public class AlgoRideOrderScreen {
             System.out.printf("Fuel -> 0\n");
             System.out.printf("Driver Rating from Customer: %.1f\n", customerRating);
             System.out.printf("Current Driver Rating: %.1f\n", person.getRating());
-        } else {
+        } else { //normal job flow
             //set some value
-            person.setMoney(person.getMoney()+money);
-            person.setEnergy(person.getEnergy()-energy);
-            motorcycle.setFuel(motorcycle.getFuel()-fuel);
-            double customerRating = (int)(((Math.random()*2)+1.0)*10)/10.0;
+            int bonus = 0, minFuel = 0, minEnergy = 0;
+            if (person.getAttractiveness()*Math.random() >= 35.0)
+                bonus = (int)(person.getAttractiveness()*money/400.0);
+            if (person.getIntelligence()*Math.random() >= 35.0)
+                minFuel = (int)(person.getIntelligence()*fuel/400.0);
+            if (person.getMuscleStrength()*Math.random() >= 35.0)
+                minEnergy = (int)(person.getMuscleStrength()*energy/400.0);
+
+            person.setMoney(person.getMoney()+money+bonus);
+            person.setEnergy(person.getEnergy()-energy+minEnergy);
+            motorcycle.setFuel(motorcycle.getFuel()-fuel+minFuel);
+            double customerRating = Tool.getRandomIntegerWithRange(3, 5);
             double currentRating = ((person.getRating()*person.getTotalTrip())+customerRating)/(person.getTotalTrip()+1);
             person.setRating(currentRating);
-            
-            //display final status
-            double chance = Math.random();
-            if (chance <= 0.15 && gender.equals("F") && person.getAttractiveness() >= 60) { //date a girl
-                person.setGirlsDated(person.getGirlsDated()+1);
-                printStatus(progressBar);
-                System.out.println("\nJob done..\n");
-                System.out.printf("As a attractive driver, %s seems to like you!\n", name);
-                System.out.printf("Both of you go on a date to Cemara Asri (Free of cost)\n\n");
 
-                System.out.printf("Girls Dated(+1) -> %d\n", person.getGirlsDated());
-                System.out.printf("Money(+Rp. %,d) -> Rp. %,d\n", money, person.getMoney());
-                System.out.printf("Energy(-%d) -> %d\n", energy, person.getEnergy());
-                System.out.printf("Fuel(-%d) -> %d\n", fuel, motorcycle.getFuel());
-            } else if (chance >= 0.85 && person.getMoney() >= 70_000) { //begal
-                if (person.getMuscleStrength() >= 50) {
-                    printStatus(progressBar);
-                    System.out.println("\nJob done..\n");
-                    System.out.print("You got attacked by Medan Begal Club!\n");
-                    System.out.print("Fortunately, you are strong enough to fight them ^.^\n");
-
-                    System.out.printf("\nMoney(+Rp. %,d) -> Rp. %,d\n", money, person.getMoney());
-                    System.out.printf("Energy(-%d) -> %d\n", energy, person.getEnergy());
-                    System.out.printf("Fuel(-%d) -> %d\n", fuel, motorcycle.getFuel());
-                } else {
-                    person.setMoney(person.getMoney()-money);
-                    printStatus(progressBar);
-                    System.out.println("\nJob done..\n");
-                    System.out.print("Oh my god!! You got robbed by Medan Begal Club\n");
-                    System.out.print("You lost the fight because your Muscle Strength is less than 50\n");
-                    System.out.print("As a result, you lost this job fare T.T\n");
-
-                    System.out.printf("\nMoney(+Rp. %,d) -> Rp. %,d\n", 0, person.getMoney());
-                    System.out.printf("Energy(-%d) -> %d\n", energy, person.getEnergy());
-                    System.out.printf("Fuel(-%d) -> %d\n", fuel, motorcycle.getFuel());
-                }
-            } else {
-                printStatus(progressBar);
-                System.out.println("\nJob done..");
-                System.out.printf("\nMoney(+Rp. %,d) -> Rp. %,d\n", money, person.getMoney());
-                System.out.printf("Energy(-%d) -> %d\n", energy, person.getEnergy());
-                System.out.printf("Fuel(-%d) -> %d\n", fuel, motorcycle.getFuel());
-            }
+            printStatus(progressBar);
+            System.out.println("\nJob done..\n");
+            System.out.printf("  Money  %-13s -> Rp. %,d %s\n",
+                String.format("(+Rp. %,d)", money+bonus),
+                person.getMoney(),
+                bonus==0?"":String.format("\n  (Because of your Attractiveness, your customer gives you Rp. %,d as a Bonus!)", bonus));
+            System.out.printf("\n  Energy %-13s -> %d %s\n",
+                String.format("(-%d)", energy-minEnergy),
+                person.getEnergy(),
+                minEnergy==0?"":String.format("\n  (Because of your Muscle Strength, your have used %d less Energy!)", minEnergy));
+            System.out.printf("\n  Fuel   %-13s -> %d%% %s\n",
+                String.format("(-%d%%)", fuel-minFuel),
+                motorcycle.getFuel(),
+                minFuel==0?"":String.format("\n  (Because of your Intelligence in searching for shortest path, your have used %d%% less Fuel!)", minFuel));
+            System.out.printf("\n  Driver Rating from Customer : %.1f\n", customerRating);
+            System.out.printf("  Current Driver Rating       : %.1f\n", person.getRating());
         }
         System.out.print("\nPress <enter> to continue..");
         Tool.waitForEnterKeyPressed(() -> {});
@@ -189,6 +175,8 @@ public class AlgoRideOrderScreen {
         Tool.clearScreen();
         person.print();
         System.out.print(title);
+        System.out.print("\nJob accepted..\n");
+        System.out.print(customerDetails);
         System.out.print("\nJob on Progress:\n");
         System.out.print(progressBar);
     }

@@ -19,7 +19,6 @@ public class Person implements Serializable {
     private int intelligence;
     private int muscleStrength;
     private int attractiveness;
-    private int girlsDated;
     //-------------------------------
     private Motorcycle motorcycle;
     private Achievements achievements;
@@ -34,10 +33,9 @@ public class Person implements Serializable {
         this.tripOfTheDay = 0;
         this.totalTrip = 0;
         //-------------------------------
-        this.intelligence = 20;
-        this.muscleStrength = 20;
-        this.attractiveness = 60;
-        this.girlsDated = 0;
+        this.intelligence = 100;
+        this.muscleStrength = 100;
+        this.attractiveness = 100;
         //-------------------------------
         this.motorcycle = new Motorcycle();
         this.achievements = new Achievements();
@@ -61,7 +59,6 @@ public class Person implements Serializable {
         System.out.printf("* %-18s : %-17s *\n", "- Intelligence", intelligence+"/"+"100");
         System.out.printf("* %-18s : %-17s *\n", "- Muscle Strength", muscleStrength+"/"+"100");
         System.out.printf("* %-18s : %-17s *\n", "- Attractiveness", attractiveness+"/"+"100");
-        System.out.printf("* %-18s : %-17d *\n", "- Girl(s) Dated", girlsDated);
         System.out.println(Tool.rep('*', 42));
     }
 
@@ -76,7 +73,7 @@ public class Person implements Serializable {
     public int getMoney() {return money;}
     public void setMoney(int money) {this.money = money;}
     public double getRating() {return rating;}
-    public void setMoney(double rating) {this.rating = rating;}
+    public void setRating(double rating) {this.rating = rating;}
     public int getTripOfTheDay() {return tripOfTheDay;}
     public void setTripOfTheDay(int tripOfTheDay) {this.tripOfTheDay = tripOfTheDay;}
     public int getTotalTrip() {return totalTrip;}
@@ -96,8 +93,6 @@ public class Person implements Serializable {
         this.attractiveness = Math.min(100, attractiveness);
         this.attractiveness = Math.max(0, attractiveness);
     }
-    public int getGirlsDated() {return girlsDated;}
-    public void setGirlsDated(int girlsDated) {this.girlsDated = girlsDated;}
     public Motorcycle getMotorcycle() {return motorcycle;}
     public void setMotorcycle(Motorcycle motorcycle) {this.motorcycle = motorcycle;}
     public Achievements getAchievements() {return achievements;}
