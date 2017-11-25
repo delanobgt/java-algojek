@@ -27,21 +27,61 @@ public class Person implements Serializable {
         this.name = "Algojek - "+name;
         //-------------------------------
         this.day = 1;
-        this.energy = 20; this.maxEnergy = 20;
+        this.energy = 7; this.maxEnergy = 20;
         //-------------------------------
-        this.money = 1_000_000;
-        this.tripOfTheDay = 0;
+        this.money = 100_000_000;
+        this.rating = 0;
+        this.tripOfTheDay = 4;
         this.totalTrip = 0;
         //-------------------------------
-        this.intelligence = 100;
-        this.muscleStrength = 100;
-        this.attractiveness = 100;
+        this.intelligence = 50;
+        this.muscleStrength = 50;
+        this.attractiveness = 50;
         //-------------------------------
         this.motorcycle = new Motorcycle();
         this.achievements = new Achievements();
     }
 
     public void print() {
+        char filledChar = '=';
+        int barLength;
+        int barLength2;
+        int leftPad = (104-(name.length()+10))/2;
+        System.out.printf("%s/%s\\\n", Tool.rep(' ',leftPad), Tool.rep('-',name.length()+8));
+        System.out.printf("  Day : %-3d%s| <> %s <> |\n", day, Tool.rep(' ', leftPad-11), name);
+        System.out.printf("/---------------------------------------------------------------------------------------------------\\\n");
+        barLength = (int)Math.ceil(10.0*energy/maxEnergy);
+        System.out.printf("| Money : Rp. %,-11d                                               Energy [%-10s] %3d/%-3d |\n",
+                            money,
+                            Tool.rep(filledChar,barLength), energy, maxEnergy);
+        System.out.printf(":--------------------------------------+-------------------------+----------------------------------:\n");
+        System.out.printf("|              [Personal]              |        [Career]         |           [Motorcycle]           |\n");
+        System.out.printf("|                                      |                         |                                  |\n");
+        barLength = (int)Math.ceil(10*intelligence/100.0);
+        barLength2 = (int)Math.ceil(10*motorcycle.getFuel()/100.0);
+        System.out.printf("| Intelligence    [%-10s] %3d/100 | Rating: %.1f %s | Fuel           [%-10s] %3d%% |\n",
+                            Tool.rep(filledChar,barLength), intelligence,
+                            rating, rating==0? "(- - - - -)" : "(*"+Tool.rep(" *", (int)rating-1)+Tool.rep(" -", 5-(int)rating)+")",
+                            Tool.rep(filledChar,barLength2), motorcycle.getFuel());
+        barLength = (int)Math.ceil(10*muscleStrength/100.0);
+        barLength2 = (int)Math.ceil(10*motorcycle.getOilQuality()/100.0);
+        System.out.printf("| Muscle Strength [%-10s] %3d/100 | Today Trip: %2d/5        | Oil Quality    [%-10s] %3d%% |\n",
+                            Tool.rep(filledChar,barLength), muscleStrength,
+                            tripOfTheDay,
+                            Tool.rep(filledChar,barLength2), motorcycle.getOilQuality());
+        barLength = (int)Math.ceil(10*attractiveness/100.0);
+        barLength2 = (int)Math.ceil(10*motorcycle.getEngineHealth()/100.0);
+        System.out.printf("| Attractiveness  [%-10s] %3d/100 | Total Trip: %-3d         | Engine Health  [%-10s] %3d%% |\n",
+                            Tool.rep(filledChar,barLength), attractiveness,
+                            totalTrip,
+                            Tool.rep(filledChar,barLength2), motorcycle.getEngineHealth());
+        barLength = (int)Math.ceil(10*motorcycle.getBatteryHealth()/100.0);
+        System.out.printf("|                                      |                         | Battery Health [%-10s] %3d%% |\n",
+                            Tool.rep(filledChar,barLength), motorcycle.getBatteryHealth());
+        System.out.printf("\\--------------------------------------+-------------------------+----------------------------------/\n");
+    }
+
+    public void printOld() {
         int gap = 5;
         System.out.printf("%-42s", Tool.rep('*', name.length()+4));                         System.out.printf("%s %s\n", Tool.rep(' ',gap), Tool.rep('*',14));
         System.out.printf("%-42s", "* "+name+" *");                                         System.out.printf("%s * %s *\n", Tool.rep(' ', gap), "Motorcycle");

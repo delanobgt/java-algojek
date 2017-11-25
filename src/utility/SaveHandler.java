@@ -14,7 +14,7 @@ public class SaveHandler {
     public static void save(Object obj, String name) {
         try {
             File dir = new File("saved"); dir.mkdir(); //create folder
-            File file = new File("saved\\saved_"+name+".txt"); file.createNewFile(); //create new file
+            File file = new File("saved\\saved_"+name+".algojek"); file.createNewFile(); //create new file
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(obj);
@@ -25,7 +25,7 @@ public class SaveHandler {
 
     public static Object load(String name) {
         try {
-            File file = new File("saved\\saved_"+name+".txt");
+            File file = new File("saved\\saved_"+name+".algojek");
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream is = new ObjectInputStream(fis);
             return is.readObject();
@@ -35,9 +35,9 @@ public class SaveHandler {
 
     public static boolean checkDuplicate(String name) {
         try {
-            File file = new File("saved\\saved_"+name+".txt");
+            File file = new File("saved\\saved_"+name+".algojek");
             return file.exists();
-        } catch (Exception ex) {System.out.println(ex);}
+        } catch (Exception ex) {}
         return false;
     }
 
@@ -48,10 +48,10 @@ public class SaveHandler {
         File dir = new File("saved"); dir.mkdir();
         for (File file : dir.listFiles()) {
             String fileName = file.getName();
-            if (fileName.startsWith("saved_") && fileName.endsWith(".txt")) {
+            if (fileName.startsWith("saved_") && fileName.endsWith(".algojek")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
-                saveNamesAndDates.add( String.format("%-20s %s", fileName.substring(6, fileName.length()-4), sdf.format(file.lastModified()) ) );
-                saveNames.add(fileName.substring(6, fileName.length()-4));
+                saveNamesAndDates.add( String.format("%-20s %s", fileName.substring(6, fileName.length()-8), sdf.format(file.lastModified()) ) );
+                saveNames.add(fileName.substring(6, fileName.length()-8));
             }
         }
         lst.add(saveNames);

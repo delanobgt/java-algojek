@@ -1,6 +1,7 @@
 import src.utility.*;
 import src.menu.*;
 import src.menu.gamemenu.*;
+import src.menu.orderscreen.*;
 import src.playerstuff.Person;
 import java.util.Scanner;
 
@@ -42,7 +43,8 @@ public class Algojek {
                     SleepMenu sleepMenu = new SleepMenu(person);
                     sleepMenu.prompt();
                 } else if (mainChoice == 2) {   // Algojek Jobs
-
+                    AlgojekJobsMenu algojekJobsMenu = new AlgojekJobsMenu(person);
+                    algojekJobsMenu.prompt();
                 } else if (mainChoice == 3) {   // Personal Activities
                     PersonalActivitiesMenu personalActivitiesMenu = new PersonalActivitiesMenu(person);
                     personalActivitiesMenu.prompt();
@@ -50,9 +52,11 @@ public class Algojek {
                     MotorcycleServicesMenu motorcycleServicesMenu = new MotorcycleServicesMenu(person);
                     motorcycleServicesMenu.prompt();
                 } else if (mainChoice == 5) {   // Check Achievements
-                    
+                    System.out.print("Not yet done..");
+                    Tool.waitForEnterKeyPressed(() -> {});
                 } else if (mainChoice == 6) {   // Quit..
-                    break;
+                    QuitMenu quitMenu = new QuitMenu(person);
+                    if (!quitMenu.prompt()) break;
                 }
             } while (true);
         } while (true);

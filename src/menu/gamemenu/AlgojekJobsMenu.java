@@ -2,6 +2,7 @@ package src.menu.gamemenu;
 
 import src.utility.*;
 import src.menu.*;
+import src.menu.orderscreen.*;
 import src.playerstuff.Person;
 import java.util.Scanner;
 
@@ -52,16 +53,17 @@ public class AlgojekJobsMenu {
 			if (choice == 4) {
 				break;
 			} else if (validator.getValidationCode(choice-1) == 1) {
-				if (choice == 1) {
-
-				} else if (choice == 2) {
-
-				} else if (choice == 3) {
-
+				if (choice == 1) { 			// Algo-Ride
+					AlgoRideOrderScreen algoRideOrderScreen = new AlgoRideOrderScreen(person);
+					algoRideOrderScreen.prompt();
+				} else if (choice == 2) {	// Algo-Send
+					AlgoSendOrderScreen algoSendOrderScreen = new AlgoSendOrderScreen(person);
+					algoSendOrderScreen.prompt();
+				} else if (choice == 3) {	// Algo-Food
+					AlgoFoodOrderScreen algoFoodOrderScreen = new AlgoFoodOrderScreen(person);
+					algoFoodOrderScreen.prompt();
 				}
 			}
-			System.out.print("\nPress <enter> to Continue...");
-			Tool.waitForEnterKeyPressed(() -> {});
 		} while (true);
     }
 }
