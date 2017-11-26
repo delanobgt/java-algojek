@@ -10,12 +10,11 @@ public class Tester {
 
     public static void main(String[] args) {
 		Person person = new Person("ASTAGA WOI");
-        SleepMenu sleepMenu = new SleepMenu(person);
-        sleepMenu.prompt();
+        // AlgojekJobsMenu algojekJobsMenu = new AlgojekJobsMenu(person);
+        // algojekJobsMenu.prompt();
 
-
-        // AlgoRideOrderScreen m = new AlgoRideOrderScreen(person);
-        // m.prompt();
+        AlgoRideOrderScreen m = new AlgoRideOrderScreen(person);
+        m.prompt();
         // AlgoSendOrderScreen m = new AlgoSendOrderScreen(person);
         // m.prompt();
         // AlgoFoodOrderScreen m = new AlgoFoodOrderScreen(person);

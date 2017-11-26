@@ -33,7 +33,7 @@ public class SleepMenu {
                     () -> {
                         Tool.clearScreen();
                         person.print();
-                        System.out.printf("\n%sLocation: Bedroom\n", Tool.rep(' ', 10));
+                        System.out.printf("\n%s<Bedroom>\n", Tool.rep(' ', 15));
                         System.out.println(bedSprites[0]);
                         System.out.printf("%sWhat do you want to do?\n", Tool.rep(' ',40));
                         menu.print();
@@ -41,36 +41,37 @@ public class SleepMenu {
                     });
         if (choice == 2) return;
 
-        String gap1 = Tool.rep(' ', 10);
+        String gap1 = Tool.rep(' ', 15);
         String gap2 = Tool.rep(' ',40);
         for (int i = 0; i < 12; i++) {
             Tool.clearScreen();
             person.print();
-            System.out.printf("\n%sLocation: Bedroom\n", gap1);
+            System.out.printf("\n%s<Bedroom>\n", gap1);
             System.out.println(bedSprites[i%bedSprites.length]);
             System.out.printf("%sSleeping%s\n", gap2, Tool.rep('.',i%4));
             Tool.sleep(400);
         }
         person.setDay(person.getDay()+1);
         person.setEnergy(person.getMaxEnergy());
+        person.setTripOfTheDay(0);
 
         int intelligenceDegrade = -1;
         int muscleStrengthDegrade = -1;
         int attractivenessDegrade = -1;
         double chance = Math.random();
-        if (chance <= 0.25) // intelligence degradation
+        if (chance <= 0.2) // intelligence degradation
             if (person.getIntelligence() >= 10) {
                 intelligenceDegrade = Tool.getRandomIntegerWithRange(1, 2);
                 person.setIntelligence(person.getIntelligence()-intelligenceDegrade);
             }
         chance = Math.random();
-        if (chance <= 0.25) // muscleStrength degradation
+        if (chance <= 0.2) // muscleStrength degradation
             if (person.getMuscleStrength() >= 10) {
                 muscleStrengthDegrade = Tool.getRandomIntegerWithRange(1, 2);
                 person.setMuscleStrength(person.getMuscleStrength()-muscleStrengthDegrade);
             }
         chance = Math.random();
-        if (chance <= 0.25) // attractiveness degradation
+        if (chance <= 0.2) // attractiveness degradation
             if (person.getAttractiveness() >= 10) {
                 attractivenessDegrade = Tool.getRandomIntegerWithRange(1, 2);
                 person.setAttractiveness(person.getAttractiveness()-attractivenessDegrade);
@@ -78,7 +79,7 @@ public class SleepMenu {
 
         Tool.clearScreen();
         person.print();
-        System.out.printf("\n%sLocation: Bedroom\n", Tool.rep(' ', 10));
+        System.out.printf("\n%s<Bedroom>\n", Tool.rep(' ', 15));
         System.out.println(bedSprites[0]);
         System.out.printf("%sWake up!\n", Tool.rep(' ',40));
 		System.out.printf("\n%sIt's already Day-%d\n", Tool.rep(' ', 40), person.getDay());

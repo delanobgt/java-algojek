@@ -10,8 +10,7 @@ public class AlgoSendOrderScreen {
     private String customerDetails = "";
     private Person person;
     private Motorcycle motorcycle;
-    private Runnable orderRunnable;
-    private Thread orderThread;
+    private Thread enterKeyThread;
     private volatile boolean isPressed; //is enter key pressed?
     private Scanner sc;
     private List<String> nameList;
@@ -25,10 +24,9 @@ public class AlgoSendOrderScreen {
         this.sc = new Scanner(System.in);
         this.person = person;
         this.motorcycle = person.getMotorcycle();
-        this.orderRunnable = () -> {
-            orderMethod();
-        };
-        this.orderThread = new Thread(orderRunnable);
+        this.enterKeyThread= new Thread(() -> {
+            Tool.waitForEnterKeyPressed(() -> {isPressed = true;});
+        });
     }
 
     private void orderMethod() { //finding customer method
@@ -41,6 +39,7 @@ public class AlgoSendOrderScreen {
             for (int i = 1; i <= findDuration; i++) {
                 Tool.clearScreen();
                 person.print();
+                System.out.printf("\n%s<Algojek App Screen>\n", Tool.rep(' ', 15));
                 System.out.print(title);
                 System.out.println("\nFinding Job "+sprites[i%4]);
                 System.out.println("\nPress <enter> to cancel Finding Job");
@@ -94,7 +93,7 @@ public class AlgoSendOrderScreen {
                 System.out.printf("\nPress <enter> to ACCEPT (%d)", i);
                 Tool.sleep(1000);
                 if (isPressed) {
-                    doJob(money, energy, fuel, name, gender, distance, origin, dest);
+                    // doJob(money, energy, fuel, name, gender, distance, origin, dest);
                     return;
                 }
             }
@@ -108,15 +107,8 @@ public class AlgoSendOrderScreen {
     }
 
     private void doJob(int money, int energy, int fuel, String name, String gender, String distance, String origin, String dest) {
-        String progressBar = Tool.showProgressBar(15, 250, isJobDoable(energy, fuel)?15:Tool.getRandomIntegerWithRange(6, 10),
-                                () -> {
-                                    Tool.clearScreen();
-                                    person.print();
-                                    System.out.print(title);
-                                    System.out.print("\nJob accepted..\n");
-                                    System.out.print(customerDetails);
-                                    System.out.print("\nJob on Progress:\n");
-                                });
+        String progressBar = "";
+
         if (person.getEnergy() < energy) {  // not enough energy
             double customerRating = Tool.getRandomIntegerWithRange(1, 2);
             double currentRating = ((person.getRating()*person.getTotalTrip())+customerRating)/(person.getTotalTrip()+1);
@@ -215,7 +207,7 @@ public class AlgoSendOrderScreen {
     }
 
     public void prompt() {  //main prompt
-        orderThread.start();
-        Tool.waitForEnterKeyPressed(() -> {isPressed = true;});
+        enterKeyThread.start();
+        orderMethod();
     }
 }

@@ -12,17 +12,16 @@ public class Motorcycle implements Serializable {
     private int batteryHealth;
 
     public Motorcycle() {
-        this.fuel = 60;
-        this.oilQuality = 70;
+        this.fuel = 70;
+        this.oilQuality = 80;
         this.engineHealth = 80;
-        this.suspensionHealth = 10;
+        this.suspensionHealth = 50;
         this.batteryHealth = 90;
     }
 
     public boolean isMotorcycleHealthy() {
         return oilQuality >= 10 &&
                 engineHealth >= 10 &&
-                suspensionHealth >= 10 &&
                 batteryHealth >= 10;
     }
 
@@ -30,14 +29,12 @@ public class Motorcycle implements Serializable {
         fuel = 0;
         oilQuality = 0;
         engineHealth = 0;
-        suspensionHealth = 0;
         batteryHealth = 0;
     }
 
     public void decreaseStateALittle() {
         oilQuality -= Tool.getRandomIntegerWithRange(1, 2);
         if (Math.random() >= 0.5) engineHealth -= Tool.getRandomIntegerWithRange(1, 2);
-        if (Math.random() >= 0.5) suspensionHealth -= Tool.getRandomIntegerWithRange(1, 2);
         if (Math.random() >= 0.5) batteryHealth -= Tool.getRandomIntegerWithRange(1, 2);
     }
 

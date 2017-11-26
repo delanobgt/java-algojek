@@ -27,16 +27,16 @@ public class Person implements Serializable {
         this.name = "Algojek - "+name;
         //-------------------------------
         this.day = 1;
-        this.energy = 7; this.maxEnergy = 20;
+        this.energy = 20; this.maxEnergy = 20;
         //-------------------------------
         this.money = 100_000_000;
         this.rating = 0;
         this.tripOfTheDay = 4;
         this.totalTrip = 0;
         //-------------------------------
-        this.intelligence = 50;
-        this.muscleStrength = 50;
-        this.attractiveness = 50;
+        this.intelligence = 100;
+        this.muscleStrength = 100;
+        this.attractiveness = 100;
         //-------------------------------
         this.motorcycle = new Motorcycle();
         this.achievements = new Achievements();

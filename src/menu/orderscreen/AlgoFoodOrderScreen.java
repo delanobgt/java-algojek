@@ -107,15 +107,8 @@ public class AlgoFoodOrderScreen {
     }
 
     private void doJob(int money, int energy, int fuel, String name, String gender, String distance, String origin) {
-        String progressBar = Tool.showProgressBar(15, 250, isJobDoable(energy, fuel)?15:Tool.getRandomIntegerWithRange(6, 10),
-                                () -> {
-                                    Tool.clearScreen();
-                                    person.print();
-                                    System.out.print(title);
-                                    System.out.print("\nJob accepted..\n");
-                                    System.out.print(customerDetails);
-                                    System.out.print("\nJob on Progress:\n");
-                                });
+        String progressBar = "";
+                                
         if (person.getEnergy() < energy) {  // not enough energy
             double customerRating = Tool.getRandomIntegerWithRange(1, 2);
             double currentRating = ((person.getRating()*person.getTotalTrip())+customerRating)/(person.getTotalTrip()+1);
