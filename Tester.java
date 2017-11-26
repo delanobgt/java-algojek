@@ -10,8 +10,10 @@ public class Tester {
 
     public static void main(String[] args) {
 		Person person = new Person("ASTAGA WOI");
-        //Tool.clearScreen();
-        person.print();
+        SleepMenu sleepMenu = new SleepMenu(person);
+        sleepMenu.prompt();
+
+
         // AlgoRideOrderScreen m = new AlgoRideOrderScreen(person);
         // m.prompt();
         // AlgoSendOrderScreen m = new AlgoSendOrderScreen(person);

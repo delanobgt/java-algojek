@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.*;
 
 public class Tool {
+    private static String wholeScreenNewLine = rep('\n', 100);
+
     public static <T> String rep(T ch, int n) {
         StringBuilder sb = new StringBuilder();
         while (n-- > 0) sb.append(ch);
@@ -22,7 +24,7 @@ public class Tool {
             try {
                 Runtime.getRuntime().exec("cls");
             } catch (Exception ex2) {
-                System.out.print(rep('\n', 100));
+                System.out.print(wholeScreenNewLine);
             }
         }
     }
@@ -63,9 +65,18 @@ public class Tool {
         return lst;
     }
 
-    public static void printTextFileContent(String filePath) {
+    public static String getStringFromTextFile(String filePath) {
         List<String> lst = getStringListFromTextFile(filePath);
-        for (String s : lst) System.out.println(s);
+        StringBuilder sb = new StringBuilder();
+        for (String s : lst) sb.append(s).append('\n');
+        return sb.toString();
+    }
+
+    public static String getStringFromTextFile(String filePath, int tabSize) {
+        List<String> lst = getStringListFromTextFile(filePath);
+        StringBuilder sb = new StringBuilder();
+        for (String s : lst) sb.append(Tool.rep(' ',tabSize)).append(s).append('\n');
+        return sb.toString();
     }
 
     public static void sleep(int ms) {
@@ -88,7 +99,15 @@ public class Tool {
         }
     }
 
-    public static String showProgressBar(int length, int delay, int stop, Routine routine) {
+    public static void showProgressBar(int length, int delay, int tabSize, Routine routine) {
+        for (int i = 1; i <= length; i++) {
+            routine.doRoutine();
+            System.out.printf("%s|%-"+(2*length-1)+"s| %d%%\n", Tool.rep(' ',tabSize), Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
+            sleep(delay);
+        }
+    }
+
+    public static String showProgressBar(int length, int delay, int stop, int tabSize, Routine routine) {
         String progressBar = "";
         for (int i = 1; i <= length; i++) {
             routine.doRoutine();

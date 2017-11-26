@@ -12,14 +12,14 @@ public class Algojek {
 
     static {
         mainJobs = new String[] {
-            "Sleep (Restore Full Energy)",
+            "Go to Bedroom",
             "Algojek Jobs",
             "Personal Activities",
             "Motorcycle Services",
             "Check Achievements",
             "Quit.."
         };
-        mainJobMenu = new Menu(mainJobs);
+        mainJobMenu = new Menu(mainJobs, 38);
     }
 
     public static void main(String[] args) {
@@ -34,9 +34,9 @@ public class Algojek {
                         () -> {
                             Tool.clearScreen();
                             person.print();
-                            System.out.println("\n----Main Activities----");
+                            System.out.printf("\n%s===  Main Activities  ===\n\n", Tool.rep(' ', 40));
                             mainJobMenu.print();
-                            System.out.print(String.format("\nChoice(1-%d): ", mainJobs.length));
+                            System.out.print(String.format("\n%sChoice(1-%d): ", Tool.rep(' ', 38), mainJobs.length));
                         });
 
                 if (mainChoice == 1) {  // Sleep
