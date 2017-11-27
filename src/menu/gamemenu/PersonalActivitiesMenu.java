@@ -49,8 +49,6 @@ public class PersonalActivitiesMenu {
     public void prompt() {
         String peopleSprite = Tool.getStringFromTextFile("res\\sprites\\people.txt", 20);
         do {
-            int barWidth = 0;
-            int delay = 0;
             int choice = Tool.getIntegerInputWithRange(1, menuItems.length,
                     () -> {
                         Tool.clearScreen();
@@ -166,7 +164,7 @@ public class PersonalActivitiesMenu {
                     System.out.printf("%sEnergy(-%d) -> %d\n", Tool.rep(' ',36), 10, person.getEnergy());
                     System.out.printf("%sAttractiveness increased by %d points\n", Tool.rep(' ',36), attractivenessIncrease);
                 }
-                System.out.printf("\n%sPress <enter> to Continue...", Tool.rep(' ',39));
+                System.out.printf("\n%sPress <enter> to Continue..", Tool.rep(' ',39));
 				Tool.waitForEnterKeyPressed(() -> {});
             }
         } while (true);

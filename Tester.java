@@ -20,7 +20,7 @@ public class Tester {
         // AlgoFoodOrderScreen m = new AlgoFoodOrderScreen(person);
         // m.prompt();
 
-        PersonalActivitiesMenu m = new PersonalActivitiesMenu(person);
+        MotorcycleServicesMenu m = new MotorcycleServicesMenu(person);
         m.prompt();
 
         //writeToFile();
