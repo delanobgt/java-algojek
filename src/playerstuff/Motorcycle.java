@@ -13,7 +13,7 @@ public class Motorcycle implements Serializable {
 
     public Motorcycle() {
         this.fuel = 70;
-        this.oilQuality = 80;
+        this.oilQuality = 70;
         this.engineHealth = 80;
         this.suspensionHealth = 50;
         this.batteryHealth = 90;

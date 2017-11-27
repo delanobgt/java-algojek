@@ -34,9 +34,9 @@ public class Person implements Serializable {
         this.tripOfTheDay = 4;
         this.totalTrip = 0;
         //-------------------------------
-        this.intelligence = 100;
-        this.muscleStrength = 100;
-        this.attractiveness = 100;
+        this.intelligence = 30;
+        this.muscleStrength = 30;
+        this.attractiveness = 30;
         //-------------------------------
         this.motorcycle = new Motorcycle();
         this.achievements = new Achievements();
@@ -121,17 +121,17 @@ public class Person implements Serializable {
     public int getIntelligence() {return intelligence;}
     public void setIntelligence(int intelligence) {
         this.intelligence = Math.min(100, intelligence);
-        this.intelligence = Math.max(0, intelligence);
+        this.intelligence = Math.max(0, this.intelligence);
     }
     public int getMuscleStrength() {return muscleStrength;}
     public void setMuscleStrength(int muscleStrength) {
         this.muscleStrength = Math.min(100, muscleStrength);
-        this.muscleStrength = Math.max(0, muscleStrength);
+        this.muscleStrength = Math.max(0, this.muscleStrength);
     }
     public int getAttractiveness() {return attractiveness;}
     public void setAttractiveness(int attractiveness) {
         this.attractiveness = Math.min(100, attractiveness);
-        this.attractiveness = Math.max(0, attractiveness);
+        this.attractiveness = Math.max(0, this.attractiveness);
     }
     public Motorcycle getMotorcycle() {return motorcycle;}
     public void setMotorcycle(Motorcycle motorcycle) {this.motorcycle = motorcycle;}

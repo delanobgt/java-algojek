@@ -114,7 +114,7 @@ public class AlgoRideOrderScreen {
 
     private void doJob(int money, int energy, int fuel, String name, String gender, String distance, String origin, String dest) {
         String progressBar = showJobAnimation(isJobDoable(energy, fuel) ? 34 : Tool.getRandomIntegerWithRange(10, 20));
-        String tab = Tool.rep(' ',25);
+        String tab = Tool.rep(' ',20);
 
         if (person.getEnergy() < energy) {  // not enough energy
             double customerRating = Tool.getRandomIntegerWithRange(1, 2);

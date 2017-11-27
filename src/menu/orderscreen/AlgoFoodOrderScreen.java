@@ -6,13 +6,11 @@ import src.playerstuff.*;
 import java.util.*;
 
 public class AlgoFoodOrderScreen {
-    private String title = "\n>>>>>>>>>>>>>>>>>>>>[ A L G O  -  F O O D ]<<<<<<<<<<<<<<<<<<<<\n";
     private String customerDetails = "";
     private Person person;
     private Motorcycle motorcycle;
-    private Runnable orderRunnable;
-    private Thread orderThread;
-    private volatile boolean isPressed; //is enter key pressed?
+    private Thread enterKeyThread;
+    private volatile boolean isPressed = false; //is enter key pressed?
     private Scanner sc;
     private List<String> nameList;
     private List<String> streetList;
@@ -25,32 +23,42 @@ public class AlgoFoodOrderScreen {
         this.sc = new Scanner(System.in);
         this.person = person;
         this.motorcycle = person.getMotorcycle();
-        this.orderRunnable = () -> {
-            orderMethod();
-        };
-        this.orderThread = new Thread(orderRunnable);
+        this.enterKeyThread= new Thread(() -> {
+            Tool.waitForEnterKeyPressed(() -> {isPressed = true;});
+        });
     }
 
     private void orderMethod() { //finding customer method
-        char[] sprites = {'|', '/', '-', '\\'};
-        isPressed = false;
+        String loadingSprite = Tool.getStringFromTextFile("res\\algojobs\\food.txt", 37);
         //search for customer infinitely
         while (true) {
             //finding customer animation
-            int findDuration = Tool.getRandomIntegerWithRange(10, 24);
-            for (int i = 1; i <= findDuration; i++) {
+            String tab = Tool.rep(' ', 45);
+            int duration = Tool.getRandomIntegerWithRange(40, 80);
+            for (int i = 0; i < duration; i++) {
                 Tool.clearScreen();
                 person.print();
-                System.out.print(title);
-                System.out.println("\nFinding Algo-Food Job "+sprites[i%4]);
-                System.out.println("\nPress <enter> to cancel Finding Job");
-                Tool.sleep(250);
+                System.out.printf("\n%s<Algojek App Screen>\n", Tool.rep(' ', 43));
+                System.out.printf(loadingSprite);
+                System.out.printf("\n%sFinding job\n", Tool.rep(' ', 47));
+
+                int tmp = i%22;
+                if (tmp <= 10)
+                    System.out.printf("%s[%s>>>%s]", tab, Tool.rep(' ',tmp), Tool.rep(' ',11-tmp));
+                else {
+                    tmp -= 11;
+                    System.out.printf("%s[%s<<<%s]", tab, Tool.rep(' ',11-tmp), Tool.rep(' ',tmp));
+                }
+
+                System.out.printf("\n\n%sPress <enter> to cancel finding job", Tool.rep(' ',35));
+                Tool.sleep(100);
                 if (isPressed) {
                     Tool.clearScreen();
                     person.print();
-                    System.out.print(title);
-                    System.out.print("\nFinding Job cancelled\n\n");
-                    System.out.print("Press <enter> to Continue...");
+                    System.out.printf("\n%s<Algojek App Screen>\n", Tool.rep(' ', 43));
+                    System.out.printf(loadingSprite);
+                    System.out.printf("\n%sFinding job cancelled\n", Tool.rep(' ', 42));
+                    System.out.printf("\n%sPress <enter> to continue..", Tool.rep(' ',40));
                     Tool.waitForEnterKeyPressed(() -> {});
                     return;
                 }
@@ -75,22 +83,23 @@ public class AlgoFoodOrderScreen {
             for (int i = 8; i >= 1; i--) {
                 Tool.clearScreen();
                 person.print();
-                System.out.print(title);
-                System.out.print("\nAlgo-Food Job found!!\n");
-                customerDetails = String.format("\n%-14s | %-10s | %-11s | %-6s | %-4s | %s \n",
+                System.out.printf("\n%s<Algojek App Screen>\n", Tool.rep(' ', 43));
+                System.out.printf("\n%s Job found!\n", Tool.rep(' ',47));
+
+                customerDetails = String.format("\n%s%-14s | %-20s | %-11s | %-6s | %-4s | %s \n", Tool.rep(' ',3),
                                         "Customer Name", "Food Name", "Job Fare", "Energy", "Fuel", "Home Address") +
-                                Tool.rep('-', 90) + "\n" +
-                                String.format("%-14s | %-10s | +Rp. %,-6d | %6s | %4s | %s\n",
+                                Tool.rep(' ',3)+Tool.rep('-', 95) + "\n" +
+                                String.format("%s%-14s | %-20s | +Rp. %,-6d | %6s | %4s | %s\n", Tool.rep(' ',3),
                                         name+" ("+gender+")", food, money, "-"+energy, "-"+fuel+"%",
                                         origin+" ("+distance+"km)");
                 System.out.print(customerDetails);
                 if (!isJobDoable(energy, fuel)) {
-                    System.out.print("\n **WARNING!!**");
-                    System.out.print("\n Not enough energy/fuel or Motorcycle is not healthy enough");
-                    System.out.print("\n Job becomes risky");
-                    System.out.print("\n You may faint or experience motorcycle breakdown\n");
+                    System.out.printf("\n%s                    ** WARNING!! **", Tool.rep(' ',25));
+                    System.out.printf("\n%sNot enough energy/fuel or Motorcycle is not healthy enough", Tool.rep(' ',25));
+                    System.out.printf("\n%s                    Job becomes risky", Tool.rep(' ',25));
+                    System.out.printf("\n%s   You may faint or experience motorcycle breakdown\n", Tool.rep(' ',25));
                 }
-                System.out.printf("\nPress <enter> to ACCEPT (%d)", i);
+                System.out.printf("\n%sPress <enter> to ACCEPT (%d)", Tool.rep(' ',40), i);
                 Tool.sleep(1000);
                 if (isPressed) {
                     doJob(money, energy, fuel, name, gender, distance, origin);
@@ -107,8 +116,9 @@ public class AlgoFoodOrderScreen {
     }
 
     private void doJob(int money, int energy, int fuel, String name, String gender, String distance, String origin) {
-        String progressBar = "";
-                                
+        String progressBar = showJobAnimation(isJobDoable(energy, fuel) ? 34 : Tool.getRandomIntegerWithRange(10, 20));
+        String tab = Tool.rep(' ',20);
+
         if (person.getEnergy() < energy) {  // not enough energy
             double customerRating = Tool.getRandomIntegerWithRange(1, 2);
             double currentRating = ((person.getRating()*person.getTotalTrip())+customerRating)/(person.getTotalTrip()+1);
@@ -116,12 +126,12 @@ public class AlgoFoodOrderScreen {
             person.setEnergy(0);
 
             printStatus(progressBar);
-            System.out.print("\n  Oh no!!\n");
-            System.out.print("  You fainted because you have too little energy for the job!\n\n");
-            System.out.print("  Your customer is so pissed off\n");
-            System.out.printf("- Energy -> 0\n");
-            System.out.printf("- Driver Rating from Customer: %.1f\n", customerRating);
-            System.out.printf("- Current Driver Rating: %.1f\n", person.getRating());
+            System.out.print("\n"+tab+"Oh no!!\n");
+            System.out.print(tab+"You fainted because you have too little energy for the job!\n");
+            System.out.print(tab+"Your customer is so pissed off\n");
+            System.out.printf(tab+"- Energy -> 0\n");
+            System.out.printf(tab+"- Driver Rating from Customer: %.1f\n", customerRating);
+            System.out.printf(tab+"- Current Driver Rating: %.1f\n", person.getRating());
         } else if (motorcycle.getFuel() < fuel) { // not enough fuel
             double customerRating = Tool.getRandomIntegerWithRange(1, 2);
             double currentRating = ((person.getRating()*person.getTotalTrip())+customerRating)/(person.getTotalTrip()+1);
@@ -129,12 +139,12 @@ public class AlgoFoodOrderScreen {
             motorcycle.setFuel(0);
 
             printStatus(progressBar);
-            System.out.print("\n  Oh no!!\n");
-            System.out.print("  Your motorcycle can't go on anymore because it ran out of fuel!\n");
-            System.out.print("  Your customer is so pissed off\n");
-            System.out.printf("- Fuel -> 0\n");
-            System.out.printf("- Driver Rating from Customer: %.1f\n", customerRating);
-            System.out.printf("- Current Driver Rating: %.1f\n", person.getRating());
+            System.out.print("\n"+tab+"Oh no!!\n");
+            System.out.print(tab+"Your motorcycle can't go on anymore because it ran out of fuel!\n");
+            System.out.print(tab+"Your customer is so pissed off\n");
+            System.out.printf(tab+"- Fuel -> 0\n");
+            System.out.printf(tab+"- Driver Rating from Customer: %.1f\n", customerRating);
+            System.out.printf(tab+"- Current Driver Rating: %.1f\n", person.getRating());
         } else if (!motorcycle.isMotorcycleHealthy()) { //motorcycle poor health
             double customerRating = Tool.getRandomIntegerWithRange(1, 2);
             double currentRating = ((person.getRating()*person.getTotalTrip())+customerRating)/(person.getTotalTrip()+1);
@@ -142,13 +152,13 @@ public class AlgoFoodOrderScreen {
             motorcycle.setAllStateToZero();
 
             printStatus(progressBar);
-            System.out.print("\n  Oh no!!\n");
-            System.out.print("  Your motorcycle broke down because it's engine/oil/suspension/battery is not healthy!\n");
-            System.out.print("  Your customer is so pissed off\n");
-            System.out.printf("  You got low Driver Rating and a broken motocycle (all state becomes 0)\n");
-            System.out.printf("  You should fix it at the Motorcycle Services Menu\n\n");
-            System.out.printf("- Driver Rating from Customer: %.1f\n", customerRating);
-            System.out.printf("- Current Driver Rating: %.1f\n", person.getRating());
+            System.out.print("\n"+tab+"Oh no!!\n");
+            System.out.print(tab+"Your motorcycle broke down because it's engine/oil/suspension/battery is not healthy!\n");
+            System.out.print(tab+"Your customer is so pissed off\n");
+            System.out.printf(tab+"You got low Driver Rating and a broken motocycle (all state becomes 0)\n");
+            System.out.printf(tab+"You should fix it at the Motorcycle Services Menu\n");
+            System.out.printf(tab+"- Driver Rating from Customer: %.1f\n", customerRating);
+            System.out.printf(tab+"- Current Driver Rating: %.1f\n", person.getRating());
         } else { //normal job flow
             //set some value
             int tip = 0, bonus = 0, minFuel = 0, minEnergy = 0;
@@ -172,42 +182,67 @@ public class AlgoFoodOrderScreen {
             if (person.getTripOfTheDay() == 5)
                 bonus = 200_000;
 
+            String tab1 = Tool.rep(' ', 20);
             printStatus(progressBar);
-            System.out.println("\nJob done..\n");
-            System.out.println("- Motorcycle State decreased a little");
-            System.out.printf("- Money  %-13s -> Rp. %,d %s%s\n",
+            System.out.println("\n"+tab1+"Job done..");
+            System.out.println(tab1+"- Motorcycle State decreased a little");
+            System.out.printf(tab1+"- Money  %-13s -> Rp. %,d %s %s\n",
                 String.format("(+Rp. %,d)", money+bonus+tip),
                 person.getMoney(),
-                bonus==0?"":String.format("\n  (For completing 5 trip, you get Rp. %,d as a Bonus!)", bonus),
-                tip==0?"":String.format("\n  (Because of your Attractiveness, your customer gives you Rp. %,d as a Tip!)", tip));
-            System.out.printf("- Energy %-13s -> %d %s\n",
+                bonus==0?"":String.format("(You get Rp. %,d from 5-trip Bonus!)", bonus),
+                tip==0?"":String.format("\n%s    (Your customer gives you Rp. %,d as a Tip, because you of your Attractiveness!)", tab1, tip));
+            System.out.printf(tab1+"- Energy %-13s -> %d %s\n",
                 String.format("(-%d)", energy-minEnergy),
                 person.getEnergy(),
-                minEnergy==0?"":String.format("\n  (Because of your Muscle Strength, your have used %d less Energy!)", minEnergy));
-            System.out.printf("- Fuel   %-13s -> %d%% %s\n",
+                minEnergy==0?"":String.format("(Because of your Muscle Strength, your have used %d less Energy!)", minEnergy));
+            System.out.printf(tab1+"- Fuel   %-13s -> %d%% %s\n",
                 String.format("(-%d%%)", fuel-minFuel),
                 motorcycle.getFuel(),
-                minFuel==0?"":String.format("\n  (Because of your Intelligence in searching for shortest path, your have used %d%% less Fuel!)", minFuel));
-            System.out.printf("- Trip of the Day (+1) -> %d", person.getTotalTrip());
-            System.out.printf("\n- Driver Rating from Customer : %d {%s }\n", customerRating, Tool.rep(" *", customerRating)+Tool.rep(" -", 5-customerRating));
-            System.out.printf("- Current Driver Rating       : %.1f\n", person.getRating());
+                minFuel==0?"":String.format("(You have used %d%% less Fuel, because of your Intelligence in choosing short path)", minFuel));
+            System.out.printf(tab1+"- Trip of the Day (+1) -> %d\n", person.getTotalTrip());
+            System.out.printf(tab1+"- Driver Rating from Customer : %d (%s )\n", customerRating, Tool.rep(" *", customerRating)+Tool.rep(" -", 5-customerRating));
         }
-        System.out.print("\nPress <enter> to continue..");
+        System.out.print("\n"+Tool.rep(' ',40)+"Press <enter> to continue..");
         Tool.waitForEnterKeyPressed(() -> {});
+    }
+
+    private String showJobAnimation(int stop) {
+        List<String> lst = Tool.getStringListFromTextFile("res\\algojobs\\jobOnProgress.txt");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 35; i++) {
+            Tool.clearScreen();
+            person.print();
+            System.out.printf("\n%s<Algojek App Screen>\n", Tool.rep(' ', 43));
+            System.out.printf("\n%sJob on progress..\n", Tool.rep(' ', 45));
+            System.out.print(customerDetails);
+            for (int j = 0; j < lst.size(); j++) {
+                if (j == lst.size()-1) {
+                    String tmp = String.format("%s%s%s%s\n", Tool.rep(' ',20), Tool.rep('_',i), lst.get(j), Tool.rep('_',35-i));
+                    System.out.print(tmp);
+                    if (i == stop) sb.append(tmp);
+                } else {
+                    String tmp = String.format("%s%s%s\n", Tool.rep(' ',20), Tool.rep(' ',i), lst.get(j));
+                    System.out.print(tmp);
+                    if (i == stop) sb.append(tmp);
+                }
+            }
+            if (i == stop) break;
+            Tool.sleep(50);
+        }
+        return sb.toString();
     }
 
     private void printStatus(String progressBar) {
         Tool.clearScreen();
         person.print();
-        System.out.print(title);
-        System.out.print("\nJob accepted..\n");
+        System.out.printf("\n%s<Algojek App Screen>\n", Tool.rep(' ', 43));
+        System.out.printf("\n%sJob on progress..\n", Tool.rep(' ', 45));
         System.out.print(customerDetails);
-        System.out.print("\nJob on Progress:\n");
         System.out.print(progressBar);
     }
 
     public void prompt() {  //main prompt
-        orderThread.start();
-        Tool.waitForEnterKeyPressed(() -> {isPressed = true;});
+        enterKeyThread.start();
+        orderMethod();
     }
 }

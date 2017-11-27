@@ -33,7 +33,7 @@ public class SleepMenu {
                     () -> {
                         Tool.clearScreen();
                         person.print();
-                        System.out.printf("\n%s<Bedroom>\n", Tool.rep(' ', 15));
+                        System.out.printf("\n%s<Bedroom>\n", Tool.rep(' ', 50));
                         System.out.println(bedSprites[0]);
                         System.out.printf("%sWhat do you want to do?\n", Tool.rep(' ',40));
                         menu.print();
@@ -41,7 +41,7 @@ public class SleepMenu {
                     });
         if (choice == 2) return;
 
-        String gap1 = Tool.rep(' ', 15);
+        String gap1 = Tool.rep(' ', 50);
         String gap2 = Tool.rep(' ',40);
         for (int i = 0; i < 12; i++) {
             Tool.clearScreen();
@@ -79,7 +79,7 @@ public class SleepMenu {
 
         Tool.clearScreen();
         person.print();
-        System.out.printf("\n%s<Bedroom>\n", Tool.rep(' ', 15));
+        System.out.printf("\n%s<Bedroom>\n", Tool.rep(' ', 50));
         System.out.println(bedSprites[0]);
         System.out.printf("%sWake up!\n", Tool.rep(' ',40));
 		System.out.printf("\n%sIt's already Day-%d\n", Tool.rep(' ', 40), person.getDay());
@@ -90,7 +90,7 @@ public class SleepMenu {
                                 Tool.rep(' ',40), intelligenceDegrade, Tool.rep(' ',40));
         }
         if (muscleStrengthDegrade != -1) {
-            System.out.printf("\n%sYou lost %d Muscle Strength sbecause " +
+            System.out.printf("\n%sYou lost %d Muscle Strength because " +
                                 "\n%sof Muscle Degradation\n",
                                 Tool.rep(' ',40),muscleStrengthDegrade,Tool.rep(' ',40));
         }
