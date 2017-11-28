@@ -20,8 +20,11 @@ public class Tester {
         // AlgoFoodOrderScreen m = new AlgoFoodOrderScreen(person);
         // m.prompt();
 
-        MotorcycleServicesMenu m = new MotorcycleServicesMenu(person);
-        m.prompt();
+        // MotorcycleServicesMenu m = new MotorcycleServicesMenu(person);
+        // m.prompt();
+
+        String userName = WelcomeScreen.prompt();
+        person = WelcomeScreen.getPersonByName(userName);
 
         //writeToFile();
     }

@@ -11,10 +11,12 @@ import java.text.SimpleDateFormat;
 
 public class SaveHandler {
 
+    public static final String SAVE_SLOT_NOT_USED = Tool.rep(' ',11)+"<no save data>";
+
     public static void save(Object obj, String name) {
         try {
             File dir = new File("saved"); dir.mkdir(); //create folder
-            File file = new File("saved\\saved_"+name+".algojek"); file.createNewFile(); //create new file
+            File file = new File("saved\\"+name); file.createNewFile(); //create new file
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(obj);
@@ -25,7 +27,7 @@ public class SaveHandler {
 
     public static Object load(String name) {
         try {
-            File file = new File("saved\\saved_"+name+".algojek");
+            File file = new File("saved\\"+name);
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream is = new ObjectInputStream(fis);
             return is.readObject();
@@ -35,27 +37,32 @@ public class SaveHandler {
 
     public static boolean checkDuplicate(String name) {
         try {
-            File file = new File("saved\\saved_"+name+".algojek");
-            return file.exists();
-        } catch (Exception ex) {}
+            File dir = new File("saved"); dir.mkdir();
+            for (File file : dir.listFiles()) {
+                String curName = file.getName();
+                if (curName.matches("save\\d_.*\\.algojek")) {
+                    curName = curName.substring(16, curName.length()-8);
+                    if (curName.equals(name)) return true;
+                }
+            }
+        } catch (Exception ex) {System.out.println(ex);}
         return false;
     }
 
-    public static List<List<String>> getSaveList() {
-        List<List<String>> lst = new ArrayList<>();
-        List<String> saveNames = new ArrayList<>();
-        List<String> saveNamesAndDates = new ArrayList<>();
+    public static String[][] getSaveData() {
+        String[] saveNames = {SAVE_SLOT_NOT_USED, SAVE_SLOT_NOT_USED, SAVE_SLOT_NOT_USED, SAVE_SLOT_NOT_USED, SAVE_SLOT_NOT_USED};
+        String[] saveNamesAndDates = {SAVE_SLOT_NOT_USED, SAVE_SLOT_NOT_USED, SAVE_SLOT_NOT_USED, SAVE_SLOT_NOT_USED, SAVE_SLOT_NOT_USED, SAVE_SLOT_NOT_USED};
         File dir = new File("saved"); dir.mkdir();
         for (File file : dir.listFiles()) {
             String fileName = file.getName();
-            if (fileName.startsWith("saved_") && fileName.endsWith(".algojek")) {
+            if (fileName.matches("save\\d_.*\\.algojek")) {
+                int idx = (int)(fileName.charAt(4)-'0');
+                if (idx >= 5) continue;
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
-                saveNamesAndDates.add( String.format("%-20s %s", fileName.substring(6, fileName.length()-8), sdf.format(file.lastModified()) ) );
-                saveNames.add(fileName.substring(6, fileName.length()-8));
+                saveNamesAndDates[idx] = String.format("%-20s %s", fileName.substring(6, fileName.length()-8), sdf.format(file.lastModified()) );
+                saveNames[idx] = fileName;
             }
         }
-        lst.add(saveNames);
-        lst.add(saveNamesAndDates);
-        return lst;
+        return new String[][] {saveNames, saveNamesAndDates};
     }
 }
