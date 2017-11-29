@@ -6,6 +6,7 @@ import java.util.*;
 public class Menu {
     private List items;
     private int tabSize;
+    private boolean hasBackButton = true;
 
     public Menu(List items) {
         this.items = items;
@@ -25,7 +26,15 @@ public class Menu {
     }
 
     public void print() {
-        for (int i = 0; i < items.size(); i++)
-            System.out.printf("%s%d. %s\n", Tool.rep(' ', tabSize), i+1, items.get(i));
+        for (int i = 0; i < items.size(); i++) {
+            if (i == items.size()-1 && hasBackButton)
+                System.out.printf("%s%d. %s\n", Tool.rep(' ', tabSize), 0, items.get(i));
+            else
+                System.out.printf("%s%d. %s\n", Tool.rep(' ', tabSize), i+1, items.get(i));
+        }
+    }
+
+    public void setHasBackButton(boolean flag) {
+        this.hasBackButton = flag;
     }
 }

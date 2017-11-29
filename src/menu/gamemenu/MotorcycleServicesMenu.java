@@ -61,7 +61,7 @@ public class MotorcycleServicesMenu {
 		int delay = 125;
 		String garageSprite = Tool.getStringFromTextFile("res\\sprites\\garage.txt");
 		do {
-			int choice = Tool.getIntegerInputWithRange(1, menuItems.length,
+			int choice = Tool.getIntegerInputWithRange(0, menuItems.length-1,
 				() -> {
 					Tool.clearScreen();
 					person.print();
@@ -69,10 +69,10 @@ public class MotorcycleServicesMenu {
 					System.out.println(garageSprite);
 					System.out.printf("%sWhat do you want to do?\n", Tool.rep(' ',5));
 					menu.print(" - Not enough Money/Energy", " - Still 100%");
-					System.out.printf("\n%sChoice(1-6): ", Tool.rep(' ',5));
+					System.out.printf("\n%sChoice(0-5): ", Tool.rep(' ',5));
 				});
 
-			if (choice == 6) {
+			if (choice == 0) {
 				break;
 			} else if (validator.getValidationCode(choice-1) == 1) {
 				if (choice == 1) {		// All-in-One Service

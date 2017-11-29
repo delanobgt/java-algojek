@@ -8,15 +8,13 @@ public class Motorcycle implements Serializable {
     private int fuel;
     private int oilQuality;
     private int engineHealth;
-    private int suspensionHealth;
     private int batteryHealth;
 
     public Motorcycle() {
-        this.fuel = 70;
-        this.oilQuality = 70;
-        this.engineHealth = 80;
-        this.suspensionHealth = 50;
-        this.batteryHealth = 90;
+        this.fuel = 100;
+        this.oilQuality = 100;
+        this.engineHealth = 100;
+        this.batteryHealth = 100;
     }
 
     public boolean isMotorcycleHealthy() {
@@ -60,14 +58,6 @@ public class Motorcycle implements Serializable {
 
     public void setOilQuality(int oilQuality) {
         this.oilQuality = oilQuality;
-    }
-
-    public int getSuspensionHealth() {
-        return suspensionHealth;
-    }
-
-    public void setSuspensionHealth(int suspensionHealth) {
-        this.suspensionHealth = suspensionHealth;
     }
 
     public int getBatteryHealth() {

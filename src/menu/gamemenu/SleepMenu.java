@@ -29,7 +29,7 @@ public class SleepMenu {
     }
 
     public void prompt() {
-        int choice = Tool.getIntegerInputWithRange(1, 2,
+        int choice = Tool.getIntegerInputWithRange(0, 1,
                     () -> {
                         Tool.clearScreen();
                         person.print();
@@ -37,9 +37,9 @@ public class SleepMenu {
                         System.out.println(bedSprites[0]);
                         System.out.printf("%sWhat do you want to do?\n", Tool.rep(' ',40));
                         menu.print();
-                        System.out.printf("\n%sChoice(1-2): ", Tool.rep(' ',40));
+                        System.out.printf("\n%sChoice(0-1): ", Tool.rep(' ',40));
                     });
-        if (choice == 2) return;
+        if (choice == 0) return;
 
         String gap1 = Tool.rep(' ', 50);
         String gap2 = Tool.rep(' ',40);

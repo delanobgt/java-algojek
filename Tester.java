@@ -21,10 +21,7 @@ public class Tester {
         // m.prompt();
 
         // MotorcycleServicesMenu m = new MotorcycleServicesMenu(person);
-        // m.prompt();
-
-        String userName = WelcomeScreen.prompt();
-        person = WelcomeScreen.getPersonByName(userName);
+        // m.prompt();        
 
         //writeToFile();
     }

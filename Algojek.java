@@ -6,38 +6,46 @@ import src.playerstuff.Person;
 import java.util.Scanner;
 
 public class Algojek {
-    private static Person person;
-    private static String[] mainJobs;
-    private static Menu mainJobMenu;
+    static Person person = null;
 
-    static {
-        mainJobs = new String[] {
+    public static void main(String[] args) {
+        String[] mainJobs = new String[] {
             "Go to Bedroom",
             "Algojek Jobs",
             "Personal Activities",
             "Motorcycle Services",
-            "Check Achievements",
             "Quit.."
         };
-        mainJobMenu = new Menu(mainJobs, 38);
-    }
-
-    public static void main(String[] args) {
+        Menu mainJobMenu = new Menu(mainJobs, 41);
+        QuoteBox[] quoteBoxes = {
+            new QuoteBox("res\\quotes\\1.txt"),
+            new QuoteBox("res\\quotes\\2.txt"),
+            new QuoteBox("res\\quotes\\3.txt"),
+            new QuoteBox("res\\quotes\\4.txt"),
+            new QuoteBox("res\\quotes\\5.txt"),
+            new QuoteBox("res\\quotes\\6.txt"),
+            new QuoteBox("res\\quotes\\7.txt"),
+            new QuoteBox("res\\quotes\\8.txt"),
+            new QuoteBox("res\\quotes\\9.txt"),
+            new QuoteBox("res\\quotes\\10.txt")
+        };
 
         do {
 			Tool.clearScreen();
             WelcomeScreen.showAnimatedTitle();
-            String userName = WelcomeScreen.prompt();
-            person = WelcomeScreen.getPersonByName(userName);
+            person = WelcomeScreen.prompt();
             do {
-                int mainChoice = Tool.getIntegerInputWithRange(1, mainJobs.length,
-                        () -> {
-                            Tool.clearScreen();
-                            person.print();
-                            System.out.printf("\n%s===  Main Activities  ===\n\n", Tool.rep(' ', 40));
-                            mainJobMenu.print();
-                            System.out.print(String.format("\n%sChoice(1-%d): ", Tool.rep(' ', 38), mainJobs.length));
-                        });
+                QuoteBox quoteBox = quoteBoxes[Tool.getRandomIntegerWithRange(0, quoteBoxes.length-1)];
+                int mainChoice = Tool.getIntegerInputWithRange(0, mainJobs.length-1,
+                    () -> {
+                        Tool.clearScreen();
+                        person.print();
+                        System.out.print("\n"+quoteBox);
+                        System.out.printf("\n%s<Main Activities>", Tool.rep(' ', 44));
+                        System.out.printf("\n\n%sWhat do you want to do?\n\n", Tool.rep(' ', 41));
+                        mainJobMenu.print();
+                        System.out.print(String.format("\n%sChoice(0-%d): ", Tool.rep(' ', 41), mainJobs.length-1));
+                    });
 
                 if (mainChoice == 1) {  // Sleep
                     SleepMenu sleepMenu = new SleepMenu(person);
@@ -51,10 +59,7 @@ public class Algojek {
                 } else if (mainChoice == 4) {   // Motorcycle Services
                     MotorcycleServicesMenu motorcycleServicesMenu = new MotorcycleServicesMenu(person);
                     motorcycleServicesMenu.prompt();
-                } else if (mainChoice == 5) {   // Check Achievements
-                    System.out.print("Not yet done..");
-                    Tool.waitForEnterKeyPressed(() -> {});
-                } else if (mainChoice == 6) {   // Quit..
+                } else if (mainChoice == 0) {   // Quit..
                     QuitMenu quitMenu = new QuitMenu(person);
                     if (!quitMenu.prompt()) break;
                 }

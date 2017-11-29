@@ -21,7 +21,6 @@ public class Person implements Serializable {
     private int attractiveness;
     //-------------------------------
     private Motorcycle motorcycle;
-    private Achievements achievements;
 
     public Person(String name) {
         this.name = "Algojek - "+name;
@@ -29,17 +28,16 @@ public class Person implements Serializable {
         this.day = 1;
         this.energy = 20; this.maxEnergy = 20;
         //-------------------------------
-        this.money = 100_000_000;
+        this.money = 100_000;
         this.rating = 0;
-        this.tripOfTheDay = 4;
+        this.tripOfTheDay = 0;
         this.totalTrip = 0;
         //-------------------------------
         this.intelligence = 30;
         this.muscleStrength = 30;
         this.attractiveness = 30;
         //-------------------------------
-        this.motorcycle = new Motorcycle();
-        this.achievements = new Achievements();
+        this.motorcycle = new Motorcycle();        
     }
 
     public void print() {
@@ -89,7 +87,7 @@ public class Person implements Serializable {
         System.out.printf("* %-18s : %-17d *", "Day", day);                                 System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Fuel", motorcycle.getFuel());
         System.out.printf("* %-18s : %-17s *", "Energy", energy+"/"+maxEnergy);             System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Oil Quality", motorcycle.getOilQuality());
         System.out.printf("*%s*", Tool.rep('-', 40));                                       System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Engine Health", motorcycle.getEngineHealth());
-        System.out.printf("* %-18s   %-17s *", "(Career)", "");                             System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Suspension Health", motorcycle.getSuspensionHealth());
+        System.out.printf("* %-18s   %-17s *", "(Career)", "");
         System.out.printf("* %-18s : Rp. %,-13d *", "- Money", money);                      System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Battery Health", motorcycle.getBatteryHealth());
         System.out.printf("* %-18s : %-17.1f *", "- Driver Rating", rating);                       System.out.printf("%s %s\n", Tool.rep(' ',gap), Tool.rep('*',30));
         System.out.printf("* %-18s : %-17s *\n", "- Trip of the Day", tripOfTheDay+"/"+5);
@@ -135,7 +133,4 @@ public class Person implements Serializable {
     }
     public Motorcycle getMotorcycle() {return motorcycle;}
     public void setMotorcycle(Motorcycle motorcycle) {this.motorcycle = motorcycle;}
-    public Achievements getAchievements() {return achievements;}
-    public void setAchievements(Achievements achievements) {this.achievements = achievements;}
-
 }

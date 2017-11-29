@@ -14,9 +14,10 @@ public class DeleteRecursively {
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Target Folder    : "); String folderName = sc.nextLine();
-        System.out.print("Target Extension : "); String extension = sc.nextLine();
-        deleteRecursively(new File(folderName), extension);
+        //Scanner sc = new Scanner(System.in);
+        //System.out.print("Target Folder    : "); String folderName = sc.nextLine();
+        //System.out.print("Target Extension : "); String extension = sc.nextLine();
+		//deleteRecursively(new File(folderName), extension);
+		deleteRecursively(new File("."), ".class");
     }
 }

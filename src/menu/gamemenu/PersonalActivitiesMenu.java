@@ -49,7 +49,7 @@ public class PersonalActivitiesMenu {
     public void prompt() {
         String peopleSprite = Tool.getStringFromTextFile("res\\sprites\\people.txt", 20);
         do {
-            int choice = Tool.getIntegerInputWithRange(1, menuItems.length,
+            int choice = Tool.getIntegerInputWithRange(0, menuItems.length-1,
                     () -> {
                         Tool.clearScreen();
                         person.print();
@@ -57,10 +57,10 @@ public class PersonalActivitiesMenu {
                         System.out.println(peopleSprite);
                         System.out.printf("%sWhat do you want to do?\n", Tool.rep(' ',18));
                         menu.print(" - Not enough Money/Energy", " - Still Full");
-                        System.out.printf("\n%sChoice(1-5): ", Tool.rep(' ',18));
+                        System.out.printf("\n%sChoice(0-4): ", Tool.rep(' ',18));
                     });
 
-            if (choice == 5) {
+            if (choice == 0) {
                 break;
             } else if (validator.getValidationCode(choice-1) == 1) {
                 if (choice == 1) {

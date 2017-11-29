@@ -51,7 +51,7 @@ public class AlgojekJobsMenu {
 
     public void prompt() {
 		do {
-			int choice = Tool.getIntegerInputWithRange(1, menuItems.length,
+			int choice = Tool.getIntegerInputWithRange(0, menuItems.length-1,
 	                    () -> {
 	                        Tool.clearScreen();
 	                        person.print();
@@ -59,10 +59,10 @@ public class AlgojekJobsMenu {
 	                        System.out.println(phoneSprites[0][0]);
 	                        System.out.printf("%sPlease choose a job!\n", Tool.rep(' ',7));
 	                        menu.print(" - Not enough Energy/Fuel", "");
-	                        System.out.printf("\n%sChoice(1-4): ", Tool.rep(' ',7));
+	                        System.out.printf("\n%sChoice(0-3): ", Tool.rep(' ',7));
 	                    });
 
-			if (choice == 4) {
+			if (choice == 0) {
 				break;
 			} else if (validator.getValidationCode(choice-1) == 1) {
 				if (choice == 1) { 			// Algo-Ride

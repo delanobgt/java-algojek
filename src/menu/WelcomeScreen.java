@@ -19,40 +19,45 @@ public class WelcomeScreen {
             "Credits    ",
             "Quit"
         };
-        mainMenu = new Menu(mainMenuItems, 32);
+        mainMenu = new Menu(mainMenuItems, 42);
     }
-    public static String prompt() {
+
+    public static Person prompt() {
         do {
-            int mainChoice = Tool.getIntegerInputWithRange(1, mainMenuItems.length,
+            int mainChoice = Tool.getIntegerInputWithRange(0, mainMenuItems.length-1,
                             () -> {
                                 Tool.clearScreen();
                                 displayTitle();
-                                System.out.println();
+                                System.out.printf("\n%s<Main Menu>\n\n", Tool.rep(' ', 43));
                                 mainMenu.print();
-                                System.out.print("\n"+Tool.rep(' ', 32)+"Choice(1-5): ");
+                                System.out.print("\n"+Tool.rep(' ', 42)+"Choice(0-4): ");
                             });
 
             if (mainChoice == 1) { // New Game
-                return null;
+                String userName = getUserNameWithLengthRange(1, 10);
+                if (userName.equals("0")) continue;
+                return new Person(userName);
             } else if (mainChoice == 2) { // Load Game
                 String[][] result = SaveHandler.getSaveData();
                 String[] saveNames = result[0];
                 String[] saveNamesAndDates = result[1];
-                saveNamesAndDates[5] = "Back";
-                Menu saveMenu = new Menu(saveNamesAndDates, 18);
+                saveNamesAndDates[4] = "Back";
+                Menu saveMenu = new Menu(saveNamesAndDates, 31);
 
                 int saveChoice;
                 do {
-                    saveChoice = Tool.getIntegerInputWithRange(1, saveNamesAndDates.length,
+                    saveChoice = Tool.getIntegerInputWithRange(0, saveNamesAndDates.length-1,
                         () -> {
                             Tool.clearScreen();
                             displayTitle();
-                            System.out.println("\n"+Tool.rep(' ',18)+Tool.rep('-',16)+"Save List"+Tool.rep('-',16));
+                            System.out.print("\n"+Tool.rep(' ',46)+"<Save Slots>");
+                            System.out.println("\n"+Tool.rep(' ',43)+"(maximum 4 slots)\n");
                             saveMenu.print();
-                            System.out.print( "\n"+Tool.rep(' ', 30)+String.format("Choice(1-%d): ", saveNamesAndDates.length) );
+                            System.out.print( "\n"+Tool.rep(' ', 31)+String.format("Choice(0-%d): ", saveNamesAndDates.length-1) );
                         });
-                    if (saveChoice == saveNamesAndDates.length) break;
-                    if (!saveNames[saveChoice-1].equals(SaveHandler.SAVE_SLOT_NOT_USED)) return saveNames[saveChoice-1];
+                    if (saveChoice == 0) break;
+                    if (!saveNames[saveChoice-1].equals(SaveHandler.SAVE_SLOT_NOT_USED))
+                        return (Person)SaveHandler.load(saveNames[saveChoice-1]);
                 } while (true);
             } else if (mainChoice == 3) { // How to Play
                 //TODO
@@ -62,19 +67,10 @@ public class WelcomeScreen {
                 displayCredits();
                 System.out.print("\n"+Tool.rep(' ',23)+"Press <enter> to go back");
                 (new Scanner(System.in)).nextLine();
-            } else if (mainChoice == 5) { // Quit
+            } else if (mainChoice == 0) { // Quit
                 System.exit(0);
             }
         } while (true);
-    }
-
-    public static Person getPersonByName(String userName) {
-        if (userName == null) {
-            userName = getUserNameWithLengthRange(1, 10);
-            return new Person(userName);
-        } else {
-            return (Person)SaveHandler.load(userName);
-        }
     }
 
     public static void showAnimatedTitle() {
@@ -104,11 +100,14 @@ public class WelcomeScreen {
 
             Tool.clearScreen();
             WelcomeScreen.displayTitle();
-            if (SaveHandler.checkDuplicate(input)) System.out.println("\n"+Tool.rep(' ', 15)+"Name already exist! Please use another name");
-            else System.out.println("\n"+Tool.rep(' ', 15)+"Only A-Z letters (lowercase/uppercase) are allowed");
-            System.out.print("\n"+Tool.rep(' ', 15)+"Enter your name(1-10 alphabets): ");
+            System.out.println("\n\n"+Tool.rep(' ', 10)+"** Only A-Z letters (lowercase/uppercase, without spaces) are allowed **");
+            System.out.println("\n"+Tool.rep(' ', 10)+"** Type in \"0\" without quotes to go back **");
+            if (SaveHandler.checkDuplicate(input)) System.out.println("\n"+Tool.rep(' ', 10)+"** Name already exist! Please use another name! **");
+            System.out.print("\n\n"+Tool.rep(' ', 10)+"Enter your name(1-10 alphabets):");
+            System.out.print("\n\n"+Tool.rep(' ', 10)+"Algojek - ");
 
             try {input = sc.nextLine();} catch (Exception ex) {isValid = false;}
+            if (isValid && input.equals("0")) return input;
             if (isValid &&
                 input.matches(String.format("[a-zA-Z]{%d,%d}", left, right)) &&
                 !SaveHandler.checkDuplicate(input)) return input;
