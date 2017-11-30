@@ -26,18 +26,18 @@ public class Person implements Serializable {
         this.name = "Algojek - "+name;
         //-------------------------------
         this.day = 1;
-        this.energy = 20; this.maxEnergy = 20;
+        this.energy = 30; this.maxEnergy = 30;
         //-------------------------------
         this.money = 100_000;
         this.rating = 0;
         this.tripOfTheDay = 0;
         this.totalTrip = 0;
         //-------------------------------
-        this.intelligence = 30;
-        this.muscleStrength = 30;
-        this.attractiveness = 30;
+        this.intelligence = 35;
+        this.muscleStrength = 35;
+        this.attractiveness = 35;
         //-------------------------------
-        this.motorcycle = new Motorcycle();        
+        this.motorcycle = new Motorcycle();
     }
 
     public void print() {
@@ -107,7 +107,10 @@ public class Person implements Serializable {
     public int getEnergy() {return energy;}
     public void setEnergy(int energy) {this.energy = energy;}
     public int getMaxEnergy() {return maxEnergy;}
-    public void setMaxEnergy(int maxEnergy) {this.maxEnergy = maxEnergy;}
+    public void setMaxEnergy(int maxEnergy) {
+        this.maxEnergy = Math.max(0, maxEnergy);
+        this.maxEnergy = Math.min(100, this.maxEnergy);
+    }
     public int getMoney() {return money;}
     public void setMoney(int money) {this.money = money;}
     public double getRating() {return rating;}

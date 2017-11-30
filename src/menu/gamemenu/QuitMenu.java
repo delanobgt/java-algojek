@@ -48,7 +48,7 @@ public class QuitMenu {
                         () -> {
                             Tool.clearScreen();
                             person.print();
-                            System.out.println("\n"+Tool.rep(' ',41)+"Which \"Save Slot\" to use?\n");
+                            System.out.println("\n"+Tool.rep(' ',39)+"Which \"Save Slot\" to use?\n");
                             System.out.print("\n"+Tool.rep(' ',46)+"<Save Slots>");
                             System.out.println("\n"+Tool.rep(' ',43)+"(maximum 4 slots)\n");
                             saveMenu.print();
@@ -72,7 +72,7 @@ public class QuitMenu {
 
                     Tool.clearScreen();
                     person.print();
-                    System.out.println("\n"+Tool.rep(' ',46)+"Progress saved!\n");
+                    System.out.println("\n"+Tool.rep(' ',45)+"Progress saved!\n");
                     System.out.print("\n"+Tool.rep(' ',46)+"<Save Slots>");
                     System.out.println("\n"+Tool.rep(' ',43)+"(maximum 4 slots)\n");
                     Menu tmpMenu = new Menu(Arrays.copyOfRange(SaveHandler.getSaveData()[1],0,4), 31);
@@ -94,7 +94,7 @@ public class QuitMenu {
         do {
             Tool.clearScreen();
             person.print();
-            System.out.println("\n"+Tool.rep(' ',41)+"Which \"Save Slot\" to use?\n");
+            System.out.println("\n"+Tool.rep(' ',39)+"Which \"Save Slot\" to use?\n");
             System.out.print("\n"+Tool.rep(' ',46)+"<Save Slots>");
             System.out.println("\n"+Tool.rep(' ',43)+"(maximum 4 slots)\n");
             saveMenu.print();

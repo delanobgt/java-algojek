@@ -92,6 +92,7 @@ public class PersonalActivitiesMenu {
                     String sprite = Tool.getStringFromTextFile("res\\sprites\\workout.txt", 17);
                     person.setMoney(person.getMoney()-40_000);
                     person.setEnergy(person.getEnergy()-15);
+
                     for (int i = 1; i <= 15; i++) {
 							Tool.clearScreen();
 							person.print();
@@ -104,6 +105,12 @@ public class PersonalActivitiesMenu {
                     int muscleStrengthIncrease = Tool.getRandomIntegerWithRange(10, 15);
                     person.setMuscleStrength(person.getMuscleStrength()+muscleStrengthIncrease);
 
+                    int maxEnergyIncrease = -1;
+                    if (Math.random() <= 0.45)  {
+                        maxEnergyIncrease = Tool.getRandomIntegerWithRange(1, 10);
+                        person.setMaxEnergy(person.getMaxEnergy()+maxEnergyIncrease);
+                    }
+
                     Tool.clearScreen();
                     person.print();
                     System.out.printf("\n%s<Your personal life>\n", Tool.rep(' ', 43));
@@ -113,6 +120,8 @@ public class PersonalActivitiesMenu {
                     System.out.printf("%sMoney(-Rp. %,d) -> Rp. %,d\n", Tool.rep(' ',36), 40_000, person.getMoney());
                     System.out.printf("%sEnergy(-%d) -> %d\n", Tool.rep(' ',36), 15, person.getEnergy());
                     System.out.printf("%sMuscle Strength increased by %d points\n", Tool.rep(' ',36), muscleStrengthIncrease);
+                    if (maxEnergyIncrease != -1)
+                        System.out.printf("%sCongratz, you successfully extended Max Energy by %d points\n", Tool.rep(' ',36), maxEnergyIncrease);
                 } else if (choice == 3) {
                     String sprite = Tool.getStringFromTextFile("res\\sprites\\barber.txt", 25);
                     person.setMoney(person.getMoney()-50_000);

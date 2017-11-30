@@ -4,6 +4,9 @@ import src.menu.gamemenu.*;
 import src.menu.orderscreen.*;
 import src.playerstuff.Person;
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.io.File;
 
 public class Algojek {
     static Person person = null;
@@ -17,25 +20,18 @@ public class Algojek {
             "Quit.."
         };
         Menu mainJobMenu = new Menu(mainJobs, 41);
-        QuoteBox[] quoteBoxes = {
-            new QuoteBox("res\\quotes\\1.txt"),
-            new QuoteBox("res\\quotes\\2.txt"),
-            new QuoteBox("res\\quotes\\3.txt"),
-            new QuoteBox("res\\quotes\\4.txt"),
-            new QuoteBox("res\\quotes\\5.txt"),
-            new QuoteBox("res\\quotes\\6.txt"),
-            new QuoteBox("res\\quotes\\7.txt"),
-            new QuoteBox("res\\quotes\\8.txt"),
-            new QuoteBox("res\\quotes\\9.txt"),
-            new QuoteBox("res\\quotes\\10.txt")
-        };
+
+        List<QuoteBox> quoteBoxes = new ArrayList<>();
+        File quoteDir = new File("res\\quotes");
+        for (File file : quoteDir.listFiles())
+            quoteBoxes.add(new QuoteBox("res\\quotes\\"+file.getName()));
 
         do {
 			Tool.clearScreen();
             WelcomeScreen.showAnimatedTitle();
             person = WelcomeScreen.prompt();
             do {
-                QuoteBox quoteBox = quoteBoxes[Tool.getRandomIntegerWithRange(0, quoteBoxes.length-1)];
+                QuoteBox quoteBox = quoteBoxes.get(Tool.getRandomIntegerWithRange(0, quoteBoxes.size()-1));
                 int mainChoice = Tool.getIntegerInputWithRange(0, mainJobs.length-1,
                     () -> {
                         Tool.clearScreen();

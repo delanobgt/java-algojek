@@ -1,3 +1,14 @@
-------------Credits------------
-                                 
-Irvin Delano - 03081170007
+                              Design and Programming by:
+   
+                         Irvin Delano - 03081170007 - 17IS1
+
+          The creator is currently a student in UPH Medan. Enrolled in 2017.
+         He is pursuing a degree in Information System. This game is intended
+        to be his final project for his first semester. His dream is to become
+          a Full Stack Web Developer. Quite a dream, isn't it? To achieve that,
+       lots of learning is required. Unfortunately, sometimes, he is just too lazy 
+      and lack of motivation. Should fix his mindset though. Despite that, he loves 
+      to code, but is terrible in graphic design. Hopefully someday, he could find
+                     a little light in the dark realm of design.
+
+                         Last but not least, enjoy the game!!

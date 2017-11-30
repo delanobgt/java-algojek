@@ -59,19 +59,19 @@ public class SleepMenu {
         int muscleStrengthDegrade = -1;
         int attractivenessDegrade = -1;
         double chance = Math.random();
-        if (chance <= 0.2) // intelligence degradation
+        if (chance <= 0.17) // intelligence degradation
             if (person.getIntelligence() >= 10) {
                 intelligenceDegrade = Tool.getRandomIntegerWithRange(1, 2);
                 person.setIntelligence(person.getIntelligence()-intelligenceDegrade);
             }
         chance = Math.random();
-        if (chance <= 0.2) // muscleStrength degradation
+        if (chance <= 0.18) // muscleStrength degradation
             if (person.getMuscleStrength() >= 10) {
                 muscleStrengthDegrade = Tool.getRandomIntegerWithRange(1, 2);
                 person.setMuscleStrength(person.getMuscleStrength()-muscleStrengthDegrade);
             }
         chance = Math.random();
-        if (chance <= 0.2) // attractiveness degradation
+        if (chance <= 0.19) // attractiveness degradation
             if (person.getAttractiveness() >= 10) {
                 attractivenessDegrade = Tool.getRandomIntegerWithRange(1, 2);
                 person.setAttractiveness(person.getAttractiveness()-attractivenessDegrade);

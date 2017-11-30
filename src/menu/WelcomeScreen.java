@@ -10,6 +10,9 @@ public class WelcomeScreen {
 
     private static Menu mainMenu;
     private static String[] mainMenuItems;
+    private static String miniTitle =
+        "\n||----------------------------------------------------------------------------------------||";
+
 
     static {
         mainMenuItems = new String[] {
@@ -25,49 +28,83 @@ public class WelcomeScreen {
     public static Person prompt() {
         do {
             int mainChoice = Tool.getIntegerInputWithRange(0, mainMenuItems.length-1,
-                            () -> {
-                                Tool.clearScreen();
-                                displayTitle();
-                                System.out.printf("\n%s<Main Menu>\n\n", Tool.rep(' ', 43));
-                                mainMenu.print();
-                                System.out.print("\n"+Tool.rep(' ', 42)+"Choice(0-4): ");
-                            });
+                        () -> {
+                            Tool.clearScreen();
+                            displayTitle();
+                            System.out.printf("\n%s<Main Menu>\n\n", Tool.rep(' ', 43));
+                            mainMenu.print();
+                            System.out.print("\n"+Tool.rep(' ', 42)+"Choice(0-4): ");
+                        });
 
             if (mainChoice == 1) { // New Game
                 String userName = getUserNameWithLengthRange(1, 10);
                 if (userName.equals("0")) continue;
                 return new Person(userName);
             } else if (mainChoice == 2) { // Load Game
-                String[][] result = SaveHandler.getSaveData();
-                String[] saveNames = result[0];
-                String[] saveNamesAndDates = result[1];
-                saveNamesAndDates[4] = "Back";
-                Menu saveMenu = new Menu(saveNamesAndDates, 31);
-
-                int saveChoice;
                 do {
-                    saveChoice = Tool.getIntegerInputWithRange(0, saveNamesAndDates.length-1,
+                    String[][] result = SaveHandler.getSaveData();
+                    String[] saveNames = result[0];
+                    String[] saveNamesAndDates = result[1];
+                    saveNamesAndDates[4] = "Back";
+                    Menu saveMenu = new Menu(saveNamesAndDates, 31);
+                    int saveChoice = Tool.getIntegerInputWithRange(0, saveNamesAndDates.length-1,
                         () -> {
                             Tool.clearScreen();
-                            displayTitle();
-                            System.out.print("\n"+Tool.rep(' ',46)+"<Save Slots>");
+                            System.out.print(miniTitle);
+                            System.out.print(Tool.rep('\n',7)+Tool.rep(' ',46)+"<Save Slots>");
                             System.out.println("\n"+Tool.rep(' ',43)+"(maximum 4 slots)\n");
                             saveMenu.print();
                             System.out.print( "\n"+Tool.rep(' ', 31)+String.format("Choice(0-%d): ", saveNamesAndDates.length-1) );
                         });
                     if (saveChoice == 0) break;
-                    if (!saveNames[saveChoice-1].equals(SaveHandler.SAVE_SLOT_NOT_USED))
-                        return (Person)SaveHandler.load(saveNames[saveChoice-1]);
+                    if (!saveNames[saveChoice-1].equals(SaveHandler.SAVE_SLOT_NOT_USED)) {
+                        do {
+                            final int tmp1 = saveChoice;
+                            int loadChoice = Tool.getIntegerInputWithRange(0, 2,
+                                () -> {
+                                    Tool.clearScreen();
+                                    System.out.print(miniTitle);
+                                    System.out.print(Tool.rep('\n',7)+Tool.rep(' ',46)+"<Save Slots>");
+                                    System.out.println("\n"+Tool.rep(' ',43)+"(maximum 4 slots)\n");
+                                    saveMenu.print();
+                                    System.out.println("\n"+Tool.rep(' ', 31)+String.format("Save Slot %d selected", tmp1));
+                                    System.out.println(Tool.rep(' ',31)+"What do you want to do with the Save Slot?");
+                                    Menu tmpMenu = new Menu(new String[] {
+                                        "Load",
+                                        "Delete",
+                                        "Cancel"
+                                    }, 31);
+                                    tmpMenu.print();
+                                    System.out.printf("\n%sChoice(0-2): ", Tool.rep(' ',31));
+                                });
+                            if (loadChoice == 0) {
+                                break;
+                            } else if (loadChoice == 1) {
+                                return (Person)SaveHandler.load(saveNames[saveChoice-1]);
+                            } else if (loadChoice == 2) {
+                                String deleteChoice = getYesOrNoDeleteInput(saveMenu, saveNamesAndDates, saveChoice);
+                                if (deleteChoice.equalsIgnoreCase("n")) continue;
+                                try {
+                                    File file = new File("saved\\"+saveNames[saveChoice-1]);
+                                    if (!file.delete())
+                                        file.renameTo(new File("saved\\deleted_"+saveNames[saveChoice-1]));
+                                } catch (Exception ex) {System.out.println(ex);}
+                                break;
+                            }
+                        } while (true);
+                    }
                 } while (true);
             } else if (mainChoice == 3) { // How to Play
                 //TODO
             } else if (mainChoice == 4) { // Credits
                 Tool.clearScreen();
-                displayTitle();
+                System.out.print(miniTitle);
+                System.out.print(Tool.rep('\n', 7)+Tool.rep(' ',40)+"<Credits>\n\n");
                 displayCredits();
-                System.out.print("\n"+Tool.rep(' ',23)+"Press <enter> to go back");
-                (new Scanner(System.in)).nextLine();
+                System.out.print("\n"+Tool.rep(' ',33)+"Press <enter> to go back");
+                Tool.waitForEnterKeyPressed(() -> {});
             } else if (mainChoice == 0) { // Quit
+                Tool.clearScreen();
                 System.exit(0);
             }
         } while (true);
@@ -87,9 +124,27 @@ public class WelcomeScreen {
     }
 
     private static void displayCredits() {
-        List<String> lst = Tool.getStringListFromTextFile("res\\credits.txt");
-        System.out.println();
-        for (String s : lst) System.out.println(Tool.rep(' ',23)+s);
+        String creditsContent = Tool.getStringFromTextFile("res\\credits.txt", 2);
+        System.out.print(creditsContent);
+    }
+
+    private static String getYesOrNoDeleteInput(Menu saveMenu, String[] saveNamesAndDates, int saveChoice) {
+        final int tmp1 = saveChoice;
+        do {
+            Tool.clearScreen();
+            System.out.print(miniTitle);
+            System.out.print(Tool.rep('\n',7)+Tool.rep(' ',46)+"<Save Slots>");
+            System.out.println("\n"+Tool.rep(' ',43)+"(maximum 4 slots)\n");
+            saveMenu.print();
+            System.out.println("\n"+Tool.rep(' ', 31)+String.format("Save Slot %d will be deleted", tmp1));
+            System.out.print(Tool.rep(' ',31)+"Are you sure? (y/n): ");
+
+            Scanner sc = new Scanner(System.in);
+            boolean isValid = true;
+            String input = null;
+            try {input = sc.nextLine();} catch (Exception ex) {isValid = false;}
+            if (isValid && input.length() == 1 && "YyNn".indexOf(input) != -1) return input;
+        } while (true);
     }
 
     private static String getUserNameWithLengthRange(int left, int right) {
