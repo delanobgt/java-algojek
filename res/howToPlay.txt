@@ -1,0 +1,29 @@
+\"Algojek\" is a simulation game where you play as an online ojek driver.
+Your goal is to collect money and improve yourself to be the best driver.
+At the beginning of the game, you will be supplied with a new motorcycle.
+
+In this game, you will have Day, Money, and Energy
+        - Day    : the day you have gone through since becoming an Algojek driver
+        - Money  : can be used to do Personal Activities and Motorcycle Services
+        - Energy : needed to do every activities (unless sleep).
+
+Then, you have 3 parts of Status:
+        - Personal   : Intelligence, Muscle Strength, Attactiveness
+                 (Personal Status might help you to work more effeciently in Algojek Jobs,
+                  you can get more money, spend less fuel/energy depending on your status)
+
+        - Career     : Rating, Today Trip, Total Trip
+                (Career Status tells you about your job as a online ojek driver,
+                 - Rating is about how well your customer appreciate your work,
+                 - Today trip is the trip count for a day, you will get bonus money
+                                                       when you reached 5 trip a day,
+                 - Total Trip is the total trip count since the beginning of the game)
+
+        - Motorcycle : Fuel, Oil Quality, Engine Health, Battery Health
+                (Motorcycle Status keeps track of your motorcycle state,
+                 you should keep your motorcycle healthy to avoid bad accidents)
+
+These are things that are explained for the sake of clarity.
+The rest must be easy to understand as they are self-explanatory.
+
+                                  Enjoy the game!! ^.^

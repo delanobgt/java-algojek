@@ -97,7 +97,12 @@ public class WelcomeScreen {
                     }
                 } while (true);
             } else if (mainChoice == 3) { // How to Play
-                //TODO
+                Tool.clearScreen();
+                System.out.print(miniTitle);
+                System.out.print(Tool.rep('\n', 3)+Tool.rep(' ',40)+"<How to Play>\n\n");
+                displayHowToPlay();
+                System.out.print("\n"+Tool.rep(' ',34)+"Press <enter> to go back");
+                Tool.waitForEnterKeyPressed(() -> {});
             } else if (mainChoice == 4) { // Credits
                 Tool.clearScreen();
                 System.out.print(miniTitle);
@@ -123,6 +128,11 @@ public class WelcomeScreen {
     private static void displayTitle() {
         List<String> lst = Tool.getStringListFromTextFile("res\\title.txt");
         for (String s : lst) System.out.println(s);
+    }
+
+    private static void displayHowToPlay() {
+        String content = Tool.getStringFromTextFile("res\\howToPlay.txt", 2);
+        System.out.print(content);
     }
 
     private static void displayCredits() {
@@ -178,7 +188,7 @@ public class WelcomeScreen {
             String tab = Tool.rep(' ',tabSize);
             int length = 20;
             int delay = 350;
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i <= length; i++) {
                 Tool.clearScreen();
                 displayTitle();
                 System.out.println('\n');
@@ -186,11 +196,11 @@ public class WelcomeScreen {
                     System.out.printf("%sCreating your character%s\n", tab, Tool.rep('.', i%3));
                 else if (i < 14)
                     System.out.printf("%sSigning you into Algojek Company%s\n", tab, Tool.rep('.', i%3));
-                else if (i < 19)
-                    System.out.printf("%sPurchasing your new motorcycle%s\n", tab, Tool.rep('.', i%3));
                 else if (i < 20)
+                    System.out.printf("%sPurchasing your new motorcycle%s\n", tab, Tool.rep('.', i%3));
+                else
                     System.out.printf("%sDone\n", tab);
-                System.out.printf("\n\n%s|%-"+(2*length-1)+"s| %d%%\n", tab, Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
+                System.out.printf("\n\n%s[%-"+(2*length-1)+"s] %d%%\n", tab, Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
                 Tool.sleep(delay);
             }
         } else if (flag.equals("LOAD_GAME")) {
@@ -198,7 +208,7 @@ public class WelcomeScreen {
             String tab = Tool.rep(' ',tabSize);
             int length = 20;
             int delay = 350;
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i <= length; i++) {
                 Tool.clearScreen();
                 System.out.println(miniTitle);
                 System.out.println("\n\n\n\n\n");
@@ -206,11 +216,11 @@ public class WelcomeScreen {
                     System.out.printf("%sLoading your progress%s\n", tab, Tool.rep('.', i%3));
                 else if (i < 14)
                     System.out.printf("%sConfiguring character%s\n", tab, Tool.rep('.', i%3));
-                else if (i < 19)
-                    System.out.printf("%sPreparing UI%s\n", tab, Tool.rep('.', i%3));
                 else if (i < 20)
+                    System.out.printf("%sPreparing UI%s\n", tab, Tool.rep('.', i%3));
+                else
                     System.out.printf("%sDone\n", tab);
-                System.out.printf("\n\n%s|%-"+(2*length-1)+"s| %d%%\n", tab, Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
+                System.out.printf("\n\n%s[%-"+(2*length-1)+"s] %d%%\n", tab, Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
                 Tool.sleep(delay);
             }
         }

@@ -83,7 +83,8 @@ public class QuitMenu {
                     return false;
                 } while (true);
             } else if (choice == 2) {   // Quit without saving
-                return false;
+                String resp = getYesOrNoQuitNoSaveInput(menu, choice);
+                if (resp.equalsIgnoreCase("y")) return false;
             } else if (choice == 0) {   // Back
                 return true;
             }
@@ -104,6 +105,25 @@ public class QuitMenu {
             else if (flag.equals("OVERWRITE_SAVE"))
                 System.out.print(Tool.rep(' ',31)+String.format("Slot %d will be overwritten",saveChoice)+"\n");
             System.out.print(Tool.rep(' ',31)+"Are you sure? (y/n): ");
+
+            Scanner sc = new Scanner(System.in);
+            boolean isValid = true;
+            String input = null;
+            try {input = sc.nextLine();} catch (Exception ex) {isValid = false;}
+            if (isValid && input.length() == 1 && "YyNn".indexOf(input) != -1) return input;
+        } while (true);
+    }
+
+    private String getYesOrNoQuitNoSaveInput(Menu menu, int choice) {
+        do {
+            Tool.clearScreen();
+            person.print();
+            System.out.printf("\n%s<Quit Options>\n\n", Tool.rep(' ',45));
+            System.out.printf("%sHow do you want to quit?\n", Tool.rep(' ',40));
+            menu.print();
+            System.out.printf("\n%sChoice(0-2): %d\n\n", Tool.rep(' ',40), choice);
+            System.out.printf("%sYou will lost any unsaved progress\n", Tool.rep(' ',40));
+            System.out.printf("%sAre you sure? (y/n): ", Tool.rep(' ',40));
 
             Scanner sc = new Scanner(System.in);
             boolean isValid = true;
