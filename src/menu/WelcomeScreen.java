@@ -39,6 +39,7 @@ public class WelcomeScreen {
             if (mainChoice == 1) { // New Game
                 String userName = getUserNameWithLengthRange(1, 10);
                 if (userName.equals("0")) continue;
+                showProgressBar("NEW_GAME");
                 return new Person(userName);
             } else if (mainChoice == 2) { // Load Game
                 do {
@@ -77,11 +78,12 @@ public class WelcomeScreen {
                                     tmpMenu.print();
                                     System.out.printf("\n%sChoice(0-2): ", Tool.rep(' ',31));
                                 });
-                            if (loadChoice == 0) {
+                            if (loadChoice == 0) { //cancel
                                 break;
-                            } else if (loadChoice == 1) {
+                            } else if (loadChoice == 1) { //load
+                                showProgressBar("LOAD_GAME");
                                 return (Person)SaveHandler.load(saveNames[saveChoice-1]);
-                            } else if (loadChoice == 2) {
+                            } else if (loadChoice == 2) { //delete
                                 String deleteChoice = getYesOrNoDeleteInput(saveMenu, saveNamesAndDates, saveChoice);
                                 if (deleteChoice.equalsIgnoreCase("n")) continue;
                                 try {
@@ -169,4 +171,48 @@ public class WelcomeScreen {
         } while (true);
     }
 
+
+    private static void showProgressBar(String flag) {
+        if (flag.equals("NEW_GAME")) {
+            int tabSize = 24;
+            String tab = Tool.rep(' ',tabSize);
+            int length = 20;
+            int delay = 350;
+            for (int i = 0; i < length; i++) {
+                Tool.clearScreen();
+                displayTitle();
+                System.out.println('\n');
+                if (i < 7)
+                    System.out.printf("%sCreating your character%s\n", tab, Tool.rep('.', i%3));
+                else if (i < 14)
+                    System.out.printf("%sSigning you into Algojek Company%s\n", tab, Tool.rep('.', i%3));
+                else if (i < 19)
+                    System.out.printf("%sPurchasing your new motorcycle%s\n", tab, Tool.rep('.', i%3));
+                else if (i < 20)
+                    System.out.printf("%sDone\n", tab);
+                System.out.printf("\n\n%s|%-"+(2*length-1)+"s| %d%%\n", tab, Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
+                Tool.sleep(delay);
+            }
+        } else if (flag.equals("LOAD_GAME")) {
+            int tabSize = 24;
+            String tab = Tool.rep(' ',tabSize);
+            int length = 20;
+            int delay = 350;
+            for (int i = 0; i < length; i++) {
+                Tool.clearScreen();
+                System.out.println(miniTitle);
+                System.out.println("\n\n\n\n\n");
+                if (i < 7)
+                    System.out.printf("%sLoading your progress%s\n", tab, Tool.rep('.', i%3));
+                else if (i < 14)
+                    System.out.printf("%sConfiguring character%s\n", tab, Tool.rep('.', i%3));
+                else if (i < 19)
+                    System.out.printf("%sPreparing UI%s\n", tab, Tool.rep('.', i%3));
+                else if (i < 20)
+                    System.out.printf("%sDone\n", tab);
+                System.out.printf("\n\n%s|%-"+(2*length-1)+"s| %d%%\n", tab, Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
+                Tool.sleep(delay);
+            }
+        }
+    }
 }

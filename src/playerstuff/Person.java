@@ -79,27 +79,6 @@ public class Person implements Serializable {
         System.out.printf("\\--------------------------------------+-------------------------+----------------------------------/\n");
     }
 
-    public void printOld() {
-        int gap = 5;
-        System.out.printf("%-42s", Tool.rep('*', name.length()+4));                         System.out.printf("%s %s\n", Tool.rep(' ',gap), Tool.rep('*',14));
-        System.out.printf("%-42s", "* "+name+" *");                                         System.out.printf("%s * %s *\n", Tool.rep(' ', gap), "Motorcycle");
-        System.out.print(Tool.rep('*', 42));                                                System.out.printf("%s %s\n", Tool.rep(' ',gap), Tool.rep('*',30));
-        System.out.printf("* %-18s : %-17d *", "Day", day);                                 System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Fuel", motorcycle.getFuel());
-        System.out.printf("* %-18s : %-17s *", "Energy", energy+"/"+maxEnergy);             System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Oil Quality", motorcycle.getOilQuality());
-        System.out.printf("*%s*", Tool.rep('-', 40));                                       System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Engine Health", motorcycle.getEngineHealth());
-        System.out.printf("* %-18s   %-17s *", "(Career)", "");
-        System.out.printf("* %-18s : Rp. %,-13d *", "- Money", money);                      System.out.printf("%s * %-17s : %3d %%  *\n", Tool.rep(' ',gap), "Battery Health", motorcycle.getBatteryHealth());
-        System.out.printf("* %-18s : %-17.1f *", "- Driver Rating", rating);                       System.out.printf("%s %s\n", Tool.rep(' ',gap), Tool.rep('*',30));
-        System.out.printf("* %-18s : %-17s *\n", "- Trip of the Day", tripOfTheDay+"/"+5);
-        System.out.printf("* %-18s : %-17d *\n", "- Total Trip", totalTrip);
-        System.out.printf("*%s*\n", Tool.rep('-', 40));
-        System.out.printf("* %-18s   %-17s *\n", "(Personal)", "");
-        System.out.printf("* %-18s : %-17s *\n", "- Intelligence", intelligence+"/"+"100");
-        System.out.printf("* %-18s : %-17s *\n", "- Muscle Strength", muscleStrength+"/"+"100");
-        System.out.printf("* %-18s : %-17s *\n", "- Attractiveness", attractiveness+"/"+"100");
-        System.out.println(Tool.rep('*', 42));
-    }
-
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     public int getDay() {return day;}

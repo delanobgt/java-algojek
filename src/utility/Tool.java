@@ -85,41 +85,7 @@ public class Tool {
             Thread.sleep(ms);
         } catch (Exception ex) {}
     }
-
-	public static int sum(int[] data) {
-		int total = 0;
-		for (int i = 0; i < data.length; i++) total += data[i];
-		return total;
-	}
-
-    public static void showProgressBar(int length, int delay, Routine routine) {
-        for (int i = 1; i <= length; i++) {
-            routine.doRoutine();
-            System.out.printf("|%-"+(2*length-1)+"s| %d%%\n", Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
-            sleep(delay);
-        }
-    }
-
-    public static void showProgressBar(int length, int delay, int tabSize, Routine routine) {
-        for (int i = 1; i <= length; i++) {
-            routine.doRoutine();
-            System.out.printf("%s|%-"+(2*length-1)+"s| %d%%\n", Tool.rep(' ',tabSize), Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
-            sleep(delay);
-        }
-    }
-
-    public static String showProgressBar(int length, int delay, int stop, int tabSize, Routine routine) {
-        String progressBar = "";
-        for (int i = 1; i <= length; i++) {
-            routine.doRoutine();
-            progressBar = String.format("|%-"+(2*length-1)+"s| %d%%\n", Tool.rep("==",i-1)+">", (int)(i*100.0/length) );
-            System.out.print(progressBar);
-            sleep(delay);
-            if (i == stop) break;
-        }
-        return progressBar;
-    }
-
+    
     public static int getRandomIntegerWithRange(int a, int b) {
         return ( (int)(Math.random()*(b-a+1)) ) + a;
     }
