@@ -1,4 +1,4 @@
-\"Algojek\" is a simulation game where you play as an online ojek driver.
+"Algojek" is a simulation game where you play as an online ojek driver.
 Your goal is to collect money and improve yourself to be the best driver.
 At the beginning of the game, you will be supplied with a new motorcycle.
 
